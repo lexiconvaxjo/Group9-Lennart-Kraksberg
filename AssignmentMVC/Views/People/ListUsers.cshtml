@@ -1,0 +1,99 @@
+﻿
+@model  List<Project01.VM.UserVM>
+
+
+<h1>Users</h1>
+
+
+<h4>@ViewBag.Message</h4>
+
+@using (Html.BeginForm("SearchUser", "People", FormMethod.Post))
+{
+    <div class="form-group form-inline">
+
+        @Html.TextBox("Search", null, new { @class = "form-control" })
+
+        <input type="submit" value="Search" class="btn btn-sm btn-info" />
+
+    </div>
+}
+
+<div class="container">
+    @foreach (var item in Model)
+    {
+        if (item.FirstName != null)
+        {
+        <ul class="list-group list-inline">
+            @{
+                Html.RenderAction("RenderUser", "People", new { p = item });
+            }
+        </ul>
+        }
+    }
+
+</div>
+
+
+
+<br />
+<h4>Add user:</h4>
+
+@using (Html.BeginForm("AddUser", "People", FormMethod.Post))
+{
+
+    <div class="form-group form-inline">
+
+        <div class="col-xs-3">
+            @Html.Label("Username :")
+            @Html.TextBox("UserName", null, new { @class = "form-control" })
+
+            @Html.Label("Firstname :")
+            @Html.TextBox("FirstName", null, new { @class = "form-control" })
+
+            @Html.Label("Lastname :")
+            @Html.TextBox("LastName", null, new { @class = "form-control" })
+       </div>
+
+        <div class="col-xs-3">
+
+            @Html.Label("Email address :")
+            @Html.TextBox("email", null, new { @class = "form-control" })
+
+            @Html.Label("Country :")
+            @Html.TextBox("country", null, new { @class = "form-control" })
+
+            @Html.Label("Home City :")
+            @Html.TextBox("city", null, new { @class = "form-control" })
+        </div>
+
+            <div class="col-xs-3">
+                @Html.Label("Phone number :")
+                @Html.TextBox("PhoneNumber", null, new { @class = "form-control" })
+
+                @Html.Label("Address :")
+                @Html.TextBox("Address", null, new { @class = "form-control" })
+
+                @Html.Label("Postal code :")
+                @Html.TextBox("PostalCode", null, new { @class = "form-control" })
+            </div>
+
+        <div class="col-xs-3">
+            @Html.Label("Password :")
+            @Html.TextBox("Password", null, new { @class = "form-control" })
+
+            @Html.Label("Confirm password :")
+            @Html.TextBox("ConfirmPassword", null, new { @class = "form-control" })
+
+            <input type="submit" value="Add" class="btn btn-sm btn-info" />
+
+
+        </div>
+
+       </div>
+
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/scripts/bootstrap.min.js"></script>

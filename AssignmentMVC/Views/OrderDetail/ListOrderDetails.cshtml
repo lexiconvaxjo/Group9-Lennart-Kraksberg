@@ -1,0 +1,69 @@
+﻿
+@model  List<Project01.VM.OrderDetailVM>
+
+<h1>Order details</h1>
+
+
+<h4>@ViewBag.Message</h4>
+
+@using (Html.BeginForm("SearchOrderDetail", "OrderDetail", FormMethod.Post))
+{
+    <div class="form-group form-inline">
+
+        @Html.TextBox("Search", null, new { @class = "form-control" })
+
+        <input type="submit" value="Search" class="btn btn-sm btn-info" />
+
+    </div>
+}
+
+<div class="container">
+    @foreach (var item in Model)
+    {
+        if (item.OrderDetailId != 0)
+        {
+            <ul class="list-group list-inline">
+                @{
+                    Html.RenderAction("RenderOrderDetail", "OrderDetail", new { p = item });
+                }
+            </ul>
+                        }
+                    }
+
+</div>
+
+
+
+<br />
+<h4>Add order detail:</h4>
+
+@using (Html.BeginForm("AddOrderDetail", "OrderDetail", FormMethod.Post))
+{
+
+    <div class="form-group form-inline">
+
+
+            @Html.Label("Order Id :")
+            @Html.TextBox("OrderId", null, new { @class = "form-control" })
+
+            @Html.Label("Item Id :")
+            @Html.TextBox("ItemId", null, new { @class = "form-control" })
+
+            @Html.Label("Quantity :")
+            @Html.TextBox("Quantity", null, new { @class = "form-control" })
+
+
+            @Html.Label("Unit price :")
+            @Html.TextBox("UnitPrice", null, new { @class = "form-control" })
+
+            <input type="submit" value="Add" class="btn btn-sm btn-info" />
+
+
+    </div>
+
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/scripts/bootstrap.min.js"></script>

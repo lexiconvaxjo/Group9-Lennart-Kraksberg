@@ -1,0 +1,70 @@
+﻿
+@model  List<Project01.VM.CartVM>
+
+<h1>Cart</h1>
+
+
+<h4>@ViewBag.Message</h4>
+
+@using (Html.BeginForm("SearchCart", "Cart", FormMethod.Post))
+{
+    <div class="form-group form-inline">
+
+        @Html.TextBox("Search", null, new { @class = "form-control" })
+
+        <input type="submit" value="Search" class="btn btn-sm btn-info" />
+
+    </div>
+}
+
+<div class="container">
+    @foreach (var item in Model)
+    {
+        if (item.ID != 0)
+        {
+            <ul class="list-group list-inline">
+                @{
+                    Html.RenderAction("RenderCart", "Cart", new { p = item });
+                }
+            </ul>
+                        }
+                    }
+
+</div>
+
+
+
+<br />
+<h4>Add Cart:</h4>
+
+@using (Html.BeginForm("AddCart", "Cart", FormMethod.Post))
+{
+
+    <div class="form-group form-inline">
+
+
+        @Html.Label("Cart Id :")
+        @Html.TextBox("CartId", null, new { @class = "form-control" })
+
+        @Html.Label("Item Id :")
+        @Html.TextBox("ItemId", null, new { @class = "form-control" })
+
+        @Html.Label("Price :")
+        @Html.TextBox("Price", null, new { @class = "form-control" })
+
+
+        @Html.Label("Quantity :")
+        @Html.TextBox("Quantity", null, new { @class = "form-control" })
+
+        <input type="submit" value="Add" class="btn btn-sm btn-info" />
+
+
+    </div>
+
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/scripts/bootstrap.min.js"></script>
+

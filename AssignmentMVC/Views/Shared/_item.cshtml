@@ -1,0 +1,45 @@
+﻿@model Project01.Models.Item
+
+<div id="Item-@Model.ItemId">
+
+    <div class="col-xs-3"> @Model.ItemId . @Model.Name </div>
+    <div class="col-xs-2"> @Model.Price </div>
+    <div class="col-xs-1"> @Model.Picture </div>
+    <div class="col-xs-3"> @Model.Description </div>
+    <div class="col-xs-1"> @Model.StockQty </div>
+
+    <div class="col-xs-1">
+        @using (Ajax.BeginForm("EditItem", "Item", new { id = Model.ItemId },
+                new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    UpdateTargetId = "Item-" + Model.ItemId,
+                    InsertionMode = InsertionMode.Replace
+
+                }))
+        {
+            <input type="submit" value="Edit" class="btn btn-sm btn-info" />
+        }
+
+    </div>
+
+
+
+    <div class="col-xs-1">
+        @using (Ajax.BeginForm("Delete", "Item", new { search = Model.Name },
+                    new AjaxOptions
+                    {
+                        HttpMethod = "POST",
+                        UpdateTargetId = "showPartial",
+                        InsertionMode = InsertionMode.Replace
+
+                    }))
+        {
+            <input type="submit" value="Delete" class="btn btn-sm btn-info" />
+        }
+
+    </div>
+
+
+</div>
+

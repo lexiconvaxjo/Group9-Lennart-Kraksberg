@@ -1,0 +1,97 @@
+﻿
+@model  List<Project01.VM.OrderVM>
+
+<h1>Orders</h1>
+
+
+<h4>@ViewBag.Message</h4>
+
+@using (Html.BeginForm("SearchOrder", "Order", FormMethod.Post))
+{
+    <div class="form-group form-inline">
+
+        @Html.TextBox("Search", null, new { @class = "form-control" })
+
+        <input type="submit" value="Search" class="btn btn-sm btn-info" />
+
+    </div>
+}
+
+<div class="container">
+    @foreach (var item in Model)
+    {
+        if (item.OrderId != 0)
+        {
+            <ul class="list-group list-inline">
+                @{
+                    Html.RenderAction("RenderOrder", "Order", new { p = item });
+                }
+            </ul>
+                        }
+                    }
+
+</div>
+
+
+
+<br />
+<h4>Add order:</h4>
+
+@using (Html.BeginForm("AddOrder", "Order", FormMethod.Post))
+{
+
+    <div class="form-group form-inline">
+
+        <div class="col-xs-3">
+
+            @Html.Label("User name :")
+            @Html.TextBox("UserName", null, new { @class = "form-control" })
+
+            @Html.Label("First name :")
+            @Html.TextBox("FirstName", null, new { @class = "form-control" })
+
+            @Html.Label("Last name :")
+            @Html.TextBox("LastName", null, new { @class = "form-control" })
+        </div>
+
+        <div class="col-xs-3">
+
+            @Html.Label("Email address :")
+            @Html.TextBox("Email", null, new { @class = "form-control" })
+
+            @Html.Label("Phone number :")
+            @Html.TextBox("PhoneNumber", null, new { @class = "form-control" })
+
+            @Html.Label("Country :")
+            @Html.TextBox("Country", null, new { @class = "form-control" })
+        </div>
+
+
+        <div class="col-xs-3">
+            @Html.Label("Home City :")
+            @Html.TextBox("City", null, new { @class = "form-control" })
+
+            @Html.Label("Address :")
+            @Html.TextBox("Address", null, new { @class = "form-control" })
+
+            @Html.Label("Postal code :")
+            @Html.TextBox("PostalCode", null, new { @class = "form-control" })
+
+            @Html.Label("Order total :")
+            @Html.TextBox("Total", null, new { @class = "form-control" })
+        </div>
+
+
+
+            <input type="submit" value="Add" class="btn btn-sm btn-info" />
+
+
+        </div>
+
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/scripts/bootstrap.min.js"></script>
+

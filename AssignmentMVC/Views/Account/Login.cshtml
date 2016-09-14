@@ -1,0 +1,36 @@
+﻿@model Project01.VM.LogInVM
+
+@{
+    ViewBag.Title = "Log in";
+}
+
+<h1>@ViewBag.Title</h1>
+
+
+<h4>@ViewBag.Message</h4>
+
+
+@using (Html.BeginForm("Login", "Account", FormMethod.Post))
+{
+
+    @Html.LabelFor(m => m.UserName)
+    <input name="UserName" class="form-control" />
+
+    @Html.LabelFor(m => m.Password)
+    <input type="password" name="Password" class="form-control" />
+   
+    <br />
+    <input type="submit" value="Log in" class="btn btn-sm btn-info" />
+   <br />
+
+
+  @Html.ValidationSummary();
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/scripts/bootstrap.min.js"></script>
+
+
+

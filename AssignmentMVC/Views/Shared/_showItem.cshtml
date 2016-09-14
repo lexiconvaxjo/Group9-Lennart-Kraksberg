@@ -1,0 +1,18 @@
+﻿@model List<Project01.Models.Item>
+
+
+<div class="container" id="showPartial">
+
+
+
+    @foreach (var item in Model)
+    {
+        Html.RenderAction("RenderItem", "Item", new { p = item });
+    }
+
+
+
+
+</div>
+
+

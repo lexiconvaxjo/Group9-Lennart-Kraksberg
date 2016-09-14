@@ -1,0 +1,68 @@
+﻿
+@model  List<Project01.VM.ItemVM>
+
+<h1>Items</h1>
+
+
+<h4>@ViewBag.Message</h4>
+
+@using (Html.BeginForm("SearchItem", "Item", FormMethod.Post))
+{
+    <div class="form-group form-inline">
+
+        @Html.TextBox("Search", null, new { @class = "form-control" })
+
+        <input type="submit" value="Search" class="btn btn-sm btn-info" />
+
+    </div>
+}
+
+<div class="container" id="show">
+
+    @{
+        Html.RenderAction("ShowItemPartial", "Item");
+    }
+
+</div>
+
+
+
+<br />
+<h4>Add item:</h4>
+
+@using (Html.BeginForm("AddItem", "Item", FormMethod.Post))
+{
+
+    <div class="form-group form-inline">
+
+        <div class="col-xs-3">
+            @Html.Label("Item Name :")
+            @Html.TextBox("Name", null, new { @class = "form-control" })
+
+            @Html.Label("Item Price :")
+            @Html.TextBox("Price", null, new { @class = "form-control" })
+
+            @Html.Label("Picture :")
+            @Html.TextBox("Picture", null, new { @class = "form-control" })
+        </div>
+
+        <div class="col-xs-3">
+
+            @Html.Label("Description :")
+            @Html.TextBox("Description", null, new { @class = "form-control" })
+
+            @Html.Label("Quantity in stock :")
+            @Html.TextBox("StockQty", null, new { @class = "form-control" })
+
+            <input type="submit" value="Add" class="btn btn-sm btn-info" />
+
+        </div>
+
+    </div>
+
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/scripts/bootstrap.min.js"></script>
