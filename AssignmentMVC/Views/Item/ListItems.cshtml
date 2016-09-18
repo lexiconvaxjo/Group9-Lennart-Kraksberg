@@ -1,5 +1,5 @@
 ﻿
-@model  List<Project01.VM.ItemVM>
+@model  List<Project01.Models.Item>
 
 <h1>Items</h1>
 
@@ -17,10 +17,22 @@
     </div>
 }
 
-<div class="container" id="show">
+<div class="col-xs-3"> ItemId . Name </div>
+<div class="col-xs-2"> Price </div>
+<div class="col-xs-1"> Picture </div>
+<div class="col-xs-3"> Description </div>
+<div class="col-xs-1"> Stock </div>
+<div class="col-xs-1">  </div>
+<div class="col-xs-1">  </div>
 
-    @{
-        Html.RenderAction("ShowItemPartial", "Item");
+<br/>
+<hr />
+
+<div class="container" id="showPartial">
+
+    @foreach (var item in Model)
+    {
+        Html.RenderAction("RenderItem", "Item", new { p = item });
     }
 
 </div>

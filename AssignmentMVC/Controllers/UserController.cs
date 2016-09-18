@@ -14,7 +14,7 @@ using static Project01.App_start.AppUserManager;
 namespace Project01.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class PeopleController : Controller
+    public class UserController : Controller
     {
 
         public async Task<ActionResult> Delete(string search)
@@ -28,7 +28,7 @@ namespace Project01.Controllers
 
         public ActionResult ListUsers()
         {
-            var Peoples = UserManager.Users.ToList().Select(x => new UserVM
+            var Users = UserManager.Users.ToList().Select(x => new UserVM
             {
                 FirstName = x.FirstName,
                 LastName = x.LastName,
@@ -41,7 +41,7 @@ namespace Project01.Controllers
                 Id = x.Id
             }).ToList();
 
-            return View(Peoples);
+            return View(Users);
         }
 
 
@@ -69,17 +69,17 @@ namespace Project01.Controllers
             }
             else
             {
-                        foreach (var item in Users)
-                         {
-                             if (item.FirstName != null && item.LastName != null && item.Email != null)
-                            {
-                                if (item.FirstName.Contains(Search) || item.LastName.Contains(Search) || item.Email.Contains(Search))
-                              {
-                                    searchList.Add(item);
-                                }
-                            }
+                foreach (var item in Users)
+                {
+                    if (item.FirstName != null && item.LastName != null && item.Email != null)
+                    {
+                        if (item.FirstName.Contains(Search) || item.LastName.Contains(Search) || item.Email.Contains(Search))
+                        {
+                            searchList.Add(item);
                         }
-                               return View("ListUsers", searchList);
+                    }
+                }
+                return View("ListUsers", searchList);
             }
 
         }
@@ -161,7 +161,7 @@ namespace Project01.Controllers
 
 
 
-        public PeopleController()
+        public UserController()
         {
         }
 
@@ -183,7 +183,7 @@ namespace Project01.Controllers
         }
 
 
-        public PeopleController(AppRole role, AppUserManager userManager, AppSignIn signIn)
+        public UserController(AppRole role, AppUserManager userManager, AppSignIn signIn)
         {
             _role = role;
             _signIn = signIn;

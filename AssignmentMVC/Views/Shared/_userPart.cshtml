@@ -3,7 +3,7 @@
 
     <li class="list-group-item col-sm-6"> @Model.FirstName @Model.LastName : @Model.Email : @Model.City : @Model.Country : @Model.PhoneNumber : @Model.Address : @Model.PostalCode </li>
     <li class="list-group-item">
-       @Html.ActionLink("Delete", "Delete", "People", new { search = Model.Email }, null)
+       @Html.ActionLink("Delete", "Delete", "User", new { search = Model.Email }, null)
     </li>
 
 

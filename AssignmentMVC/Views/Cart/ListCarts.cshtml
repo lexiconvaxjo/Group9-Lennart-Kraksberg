@@ -1,5 +1,5 @@
 ﻿
-@model  List<Project01.VM.CartVM>
+@model  List<Project01.Models.Cart>
 
 <h1>Cart</h1>
 
@@ -17,18 +17,23 @@
     </div>
 }
 
-<div class="container">
+<div class="col-xs-3"> ID . CartId </div>
+<div class="col-xs-2"> ItemId </div>
+<div class="col-xs-1"> Price </div>
+<div class="col-xs-1"> Quantity </div>
+<div class="col-xs-3"> DateCreated </div>
+<div class="col-xs-1">  </div>
+<div class="col-xs-1">  </div>
+
+<br />
+<hr />
+
+<div class="container" id="showPartial">
+
     @foreach (var item in Model)
     {
-        if (item.ID != 0)
-        {
-            <ul class="list-group list-inline">
-                @{
-                    Html.RenderAction("RenderCart", "Cart", new { p = item });
-                }
-            </ul>
-                        }
-                    }
+        Html.RenderAction("RenderCart", "Cart", new { p = item });
+    }
 
 </div>
 

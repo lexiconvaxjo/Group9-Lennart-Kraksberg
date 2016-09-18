@@ -22,7 +22,7 @@ namespace Project01.Controllers
         {
             var context = new AppDbContext();
 
-            var OrderDetails = context.OrderDetails.ToList().Select(x => new OrderDetailVM
+            var OrderDetails = context.OrderDetails.ToList().Select(x => new OrderDetail
             {
                 OrderDetailId = x.OrderDetailId,
                 OrderId = x.OrderId,
@@ -36,9 +36,9 @@ namespace Project01.Controllers
 
 
 
-        public ActionResult RenderOrderDetail(OrderDetailVM p)
+        public ActionResult RenderOrderDetail(OrderDetail p)
         {
-            return PartialView("_orderDetailPart", p);
+            return PartialView("_orderDetail", p);
         }
 
 
@@ -49,7 +49,7 @@ namespace Project01.Controllers
         {
             var context = new AppDbContext();
 
-            var OrderDetails = context.OrderDetails.ToList().Select(x => new OrderDetailVM 
+            var OrderDetails = context.OrderDetails.ToList().Select(x => new OrderDetail
             {
                 OrderDetailId = x.OrderDetailId,
                 OrderId = x.OrderId,
@@ -58,7 +58,7 @@ namespace Project01.Controllers
                 UnitPrice = x.UnitPrice,
             }).ToList();
 
-            List<OrderDetailVM> searchList = new List<OrderDetailVM>();
+            List<OrderDetail> searchList = new List<OrderDetail>();
             int numSearch = 0;
 
             if (OrderDetails == null)
@@ -90,7 +90,7 @@ namespace Project01.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult AddOrderDetail(OrderDetailVM model)
+        public ActionResult AddOrderDetail(OrderDetail model)
         {
             if (ModelState.IsValid)
             {
@@ -143,6 +143,49 @@ namespace Project01.Controllers
                 return View();
             }
 
+        }
+
+
+
+        [HttpPost]
+        public ActionResult Edit([Bind(Include = "OrderDetailId, OrderId, ItemId, Quantity, UnitPrice")]OrderDetail p)
+        {
+            var context = new AppDbContext();
+            var od = context.OrderDetails.FirstOrDefault(x => x.OrderDetailId == p.OrderDetailId);
+
+            if (ModelState.IsValid)
+            {
+                od.OrderId = p.OrderId;
+                od.ItemId = p.ItemId;
+                od.Quantity = p.Quantity;
+                od.UnitPrice = p.UnitPrice;
+                var affectedRows = context.SaveChanges();
+
+                return PartialView("_orderDetail", p);
+
+
+            }
+            else
+            {
+                return PartialView("_orderDetail", od);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditOrderDetail(int id = 0)
+        {
+            var context = new AppDbContext();
+
+            var orderDetail = context.OrderDetails.FirstOrDefault(x => x.OrderDetailId == id);
+            return PartialView("_EditOrderDetail", orderDetail);
+        }
+
+        [HttpPost]
+        public ActionResult Cancel(int id = 0)
+        {
+            var context = new AppDbContext();
+            var od = context.OrderDetails.FirstOrDefault(x => x.OrderDetailId == id);
+            return PartialView("_orderDetail", od);
         }
 
 

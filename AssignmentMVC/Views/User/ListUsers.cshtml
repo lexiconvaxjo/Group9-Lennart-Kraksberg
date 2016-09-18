@@ -7,7 +7,7 @@
 
 <h4>@ViewBag.Message</h4>
 
-@using (Html.BeginForm("SearchUser", "People", FormMethod.Post))
+@using (Html.BeginForm("SearchUser", "User", FormMethod.Post))
 {
     <div class="form-group form-inline">
 
@@ -25,7 +25,7 @@
         {
         <ul class="list-group list-inline">
             @{
-                Html.RenderAction("RenderUser", "People", new { p = item });
+                Html.RenderAction("RenderUser", "User", new { p = item });
             }
         </ul>
         }
@@ -38,7 +38,7 @@
 <br />
 <h4>Add user:</h4>
 
-@using (Html.BeginForm("AddUser", "People", FormMethod.Post))
+@using (Html.BeginForm("AddUser", "User", FormMethod.Post))
 {
 
     <div class="form-group form-inline">

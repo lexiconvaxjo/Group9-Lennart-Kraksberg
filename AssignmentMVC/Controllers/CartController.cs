@@ -22,7 +22,7 @@ namespace Project01.Controllers
         {
             var context = new AppDbContext();
 
-            var Carts = context.Carts.ToList().Select(x => new CartVM
+            var Carts = context.Carts.ToList().Select(x => new Cart
             {
                 ID = x.ID,
                 CartId = x.CartId,
@@ -37,17 +37,20 @@ namespace Project01.Controllers
 
 
 
-        public ActionResult RenderCart(CartVM p)
+
+        public ActionResult RenderCart(Cart p)
         {
-            return PartialView("_cartPart", p);
+            return PartialView("_cart", p);
         }
+
+
 
         [HttpPost]
         public ActionResult SearchCart(string Search)
         {
             var context = new AppDbContext();
 
-            var Carts = context.Carts.ToList().Select(x => new CartVM
+            var Carts = context.Carts.ToList().Select(x => new Cart
             {
                 ID = x.ID,
                 CartId = x.CartId,
@@ -58,8 +61,8 @@ namespace Project01.Controllers
 
             }).ToList();
 
-            List<CartVM> searchList = new List<CartVM>();
-            int numSearch = 0;
+            List<Cart> searchList = new List<Cart>();
+           // int numSearch = 0;
 
             if (Carts == null)
             {
@@ -75,8 +78,8 @@ namespace Project01.Controllers
                     }
                     else
                     {
-                        numSearch = int.Parse(Search);
-                        if (item.ID == numSearch)
+                      //  numSearch = int.Parse(Search);
+                        if (item.CartId == Search)
                             searchList.Add(item);
                     }
 
@@ -90,7 +93,7 @@ namespace Project01.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult AddCart(CartVM model)
+        public ActionResult AddCart(Cart model)
         {
             if (ModelState.IsValid)
             {
@@ -145,6 +148,52 @@ namespace Project01.Controllers
             }
 
         }
+
+        [HttpPost]
+        public ActionResult Edit([Bind(Include = "ID, CartId, ItemId, Price, Quantity, DateCreated")]Cart p)
+        {
+            var context = new AppDbContext();
+            var ca = context.Carts.FirstOrDefault(x => x.ID == p.ID);
+
+            if (ModelState.IsValid)
+            {
+                ca.CartId = p.CartId;
+                ca.ItemId = p.ItemId;
+                ca.Price = p.Price;
+                ca.Quantity = p.Quantity;
+                ca.DateCreated = p.DateCreated;
+                var affectedRows = context.SaveChanges();
+
+                return PartialView("_cart", p);
+
+
+            }
+            else
+            {
+                return PartialView("_cart", ca);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditCart(int id = 0)
+        {
+            var context = new AppDbContext();
+
+            var cart = context.Carts.FirstOrDefault(x => x.ID == id);
+            return PartialView("_EditCart", cart);
+        }
+
+
+
+        [HttpPost]
+        public ActionResult Cancel(int id = 0)
+        {
+            var context = new AppDbContext();
+            var ca = context.Carts.FirstOrDefault(x => x.ID == id);
+            return PartialView("_cart", ca);
+        }
+
+
 
 
     }

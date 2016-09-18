@@ -1,0 +1,45 @@
+﻿@model Project01.Models.Cart
+
+<div id="Cart-@Model.ID">
+
+    <div class="col-xs-3"> @Model.ID . @Model.CartId </div>
+    <div class="col-xs-2"> @Model.ItemId </div>
+    <div class="col-xs-1"> @Model.Price </div>
+    <div class="col-xs-1"> @Model.Quantity </div>
+    <div class="col-xs-3"> @Model.DateCreated </div>
+
+    <div class="col-xs-1">
+        @using (Ajax.BeginForm("EditCart", "Cart", new { id = Model.ID },
+                    new AjaxOptions
+                    {
+                        HttpMethod = "POST",
+                        UpdateTargetId = "Cart-" + Model.ID,
+                        InsertionMode = InsertionMode.Replace
+
+                    }))
+        {
+            <input type="submit" value="Edit" class="btn btn-sm btn-info" />
+        }
+
+    </div>
+
+
+
+    <div class="col-xs-1">
+        @using (Ajax.BeginForm("Delete", "Cart", new { search = Model.ID },
+                        new AjaxOptions
+                        {
+                            HttpMethod = "POST",
+                            UpdateTargetId = "showPartial",
+                            InsertionMode = InsertionMode.Replace
+
+                        }))
+        {
+            <input type="submit" value="Delete" class="btn btn-sm btn-info" />
+        }
+
+    </div>
+
+
+</div>
+

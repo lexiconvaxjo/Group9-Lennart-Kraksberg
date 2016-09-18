@@ -1,0 +1,63 @@
+﻿@model Project01.Models.OrderDetail
+
+
+
+<div id="OrderDetail-@Model.OrderDetailId">
+    @using (Ajax.BeginForm("Edit", "OrderDetail", new { id = Model.OrderDetailId },
+                                                            new AjaxOptions
+                                                            {
+                                                                HttpMethod = "POST",
+                                                                UpdateTargetId = "OrderDetail-" + Model.OrderDetailId,
+                                                                InsertionMode = InsertionMode.Replace
+                                                            }))
+    {
+
+
+        <div> 
+            @Html.TextBoxFor(x => Model.OrderDetailId, new { @type = "hidden" })
+        </div>
+
+        <div class="col-xs-2">
+            .
+        </div>
+
+        <div class="col-xs-2">
+            @Html.TextBoxFor(m => Model.OrderId, new { })
+        </div>
+        <div class="col-xs-2">
+            @Html.TextBoxFor(m => Model.ItemId, new { })
+
+        </div>
+        <div class="col-xs-2">
+            @Html.TextBoxFor(m => Model.Quantity, new { })
+        </div>
+        <div class="col-xs-2">
+            @Html.TextBoxFor(m => Model.UnitPrice, new { })
+        </div>
+
+
+        <div class="col-xs-1">
+            <input type="submit" value="Save" class="btn btn-sm btn-info" />
+        </div>
+    }
+
+    <div class="col-xs-1">
+
+        @using (Ajax.BeginForm("Cancel", "OrderDetail", new { id = Model.OrderDetailId },
+                                new AjaxOptions
+                                {
+                                    HttpMethod = "POST",
+                                    UpdateTargetId = "OrderDetail-" + Model.OrderDetailId,
+                                    InsertionMode = InsertionMode.Replace
+                                }))
+
+
+        {
+            <input type="submit" value="Cancel" class="btn btn-sm btn-info" />
+        }
+    </div>
+
+
+
+</div>
+

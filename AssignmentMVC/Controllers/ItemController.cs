@@ -22,7 +22,7 @@ namespace Project01.Controllers
         {
             var context = new AppDbContext();
 
-            var Items = context.Items.ToList().Select(x => new ItemVM
+            var Items = context.Items.ToList().Select(x => new Item
             {
                 ItemId = x.ItemId,
                 Name = x.Name,
@@ -36,20 +36,14 @@ namespace Project01.Controllers
         }
 
 
-
-     //   public ActionResult RenderItem(ItemVM p)
-     //   {
-     //       return PartialView("_itemPart", p);
-     //   }
-
         public ActionResult RenderItem(Item p)
         {
             return PartialView("_item", p);
         }
 
 
-
-        public ActionResult ShowItemPartial()
+        [HttpPost]
+        public ActionResult SearchItem(string Search)
         {
             var context = new AppDbContext();
 
@@ -63,27 +57,7 @@ namespace Project01.Controllers
                 StockQty = x.StockQty,
             }).ToList();
 
-            return PartialView("_showItem", Items);
-        }
-
-
-
-        [HttpPost]
-        public ActionResult SearchItem(string Search)
-        {
-            var context = new AppDbContext();
-
-            var Items = context.Items.ToList().Select(x => new ItemVM
-            {
-                ItemId = x.ItemId,
-                Name = x.Name,
-                Price = x.Price,
-                Picture = x.Picture,
-                Description = x.Description,
-                StockQty = x.StockQty,
-            }).ToList();
-
-            List<ItemVM> searchList = new List<ItemVM>();
+            List<Item> searchList = new List<Item>();
 
             if (Items == null)
             {
@@ -101,7 +75,7 @@ namespace Project01.Controllers
                         }
                     }
                 }
-                return View("ListItems", searchList);
+                    return View("ListItems", searchList);
             }
 
         }
@@ -110,7 +84,7 @@ namespace Project01.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult AddItem(ItemVM model)
+        public ActionResult AddItem(Item model)
         {
             if (ModelState.IsValid)
             {
