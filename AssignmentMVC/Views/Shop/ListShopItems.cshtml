@@ -1,0 +1,42 @@
+﻿
+@model  List<Project01.Models.Item>
+
+@* <div class="container" id="showCartMsg">
+</div> *@
+
+
+<h1>Webshop</h1>
+
+
+<h4>@ViewBag.Message</h4>
+
+<br />
+
+<div class="col-xs-2"> Picture </div>
+<div class="col-xs-2"> Id . Name </div>
+<div class="col-xs-2"> Price </div>
+<div class="col-xs-2"> Description </div>
+<div class="col-xs-2"> Stock </div>
+<div class="col-xs-1">  </div>
+<div class="col-xs-1">  </div>
+
+<br />
+<hr />
+
+<div class="container" id="showPartial">
+
+    @foreach (var item in Model)
+    {
+        Html.RenderAction("RenderShopItem", "Shop", new { p = item });
+    }
+
+</div>
+
+<br />
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/scripts/bootstrap.min.js"></script>
+
+

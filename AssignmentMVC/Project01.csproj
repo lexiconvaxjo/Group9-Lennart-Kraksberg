@@ -178,6 +178,12 @@
     <Content Include="Image\karu3.jpg" />
     <Content Include="Image\karu4.jpg" />
     <Content Include="Image\m27bk.jpg" />
+    <Content Include="Image\pic1.jpg" />
+    <Content Include="Image\pic2.jpg" />
+    <Content Include="Image\pic3.jpg" />
+    <Content Include="Image\pic4.jpg" />
+    <Content Include="Image\pic5.jpg" />
+    <Content Include="Image\pic6.jpg" />
     <Content Include="Image\Villbk.jpg" />
     <Content Include="scripts\ai.0.15.0-build58334.js" />
     <Content Include="scripts\ai.0.15.0-build58334.min.js" />
@@ -210,6 +216,7 @@
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\OrderDetailController.cs" />
+    <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -251,7 +258,6 @@
     <Compile Include="Models\AppUser.cs" />
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\City.cs" />
-    <Compile Include="Models\ContactInfo.cs" />
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Order.cs" />
@@ -294,6 +300,9 @@
     <Content Include="Views\Shared\_EditCart.cshtml" />
     <Content Include="Views\Shared\_orderDetail.cshtml" />
     <Content Include="Views\Shared\_EditOrderDetail.cshtml" />
+    <Content Include="Views\Shop\ListShopItems.cshtml" />
+    <Content Include="Views\Shared\_shopItem.cshtml" />
+    <Content Include="Views\Shared\_showCartMsg.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,22 @@
+﻿@model Project01.Models.Item
+
+
+
+
+    <div class="col-xs-1">
+        @using (Ajax.BeginForm("Delete", "Item", new { search = Model.Name },
+                        new AjaxOptions
+                        {
+                            HttpMethod = "POST",
+                            UpdateTargetId = "showCartMsg",
+                            InsertionMode = InsertionMode.Replace
+
+                        }))
+        {
+            <input type="submit" value="Delete" class="btn btn-sm btn-info" />
+        }
+
+    </div>
+
+
+

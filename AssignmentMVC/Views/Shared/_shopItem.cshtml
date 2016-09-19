@@ -1,0 +1,33 @@
+﻿@model Project01.Models.Item
+
+<div id="Item-@Model.ItemId" class="col-xs-12 " >
+
+    <div>
+   <img id="CdPics" class="img-responsive col-xs-2" src="~/Image/@Model.Picture" >
+    </div>
+    <div class="col-xs-2"> @Model.ItemId . @Model.Name </div>
+    <div class="col-xs-2"> @Model.Price </div>
+    <div class="col-xs-2"> @Model.Description </div>
+    <div class="col-xs-2"> @Model.StockQty </div>
+
+    <div class="col-xs-2">
+        @using (Ajax.BeginForm("BuyItem", "Shop", new { id = Model.ItemId }, 
+                    new AjaxOptions
+                    {
+                        HttpMethod = "POST",
+                        UpdateTargetId = "Item-" + Model.ItemId,
+                        InsertionMode = InsertionMode.Replace
+
+                    }))
+        {
+            <input type="submit" value="Buy" class="btn btn-sm btn-danger" />
+        }
+
+    </div>
+
+
+</div>
+
+
+
+

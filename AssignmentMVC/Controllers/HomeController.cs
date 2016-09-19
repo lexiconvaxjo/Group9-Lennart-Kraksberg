@@ -27,9 +27,8 @@ namespace Project01.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Title = "Contact info";
-            var model = new Project01.Models.ContactInfo();
-            return View(model);
+            ViewBag.Title = "Name and address";
+            return View();
         }
 
     }
