@@ -57,11 +57,11 @@ namespace Project01.Controllers
                 StockQty = x.StockQty,
             }).ToList();
 
-            List<Item> searchList = new List<Item>();
+            List<Item> findList = new List<Item>();
 
             if (Items == null)
             {
-                return View("ListItems", searchList);
+                return View("ListItems", findList);
             }
             else
             {
@@ -71,11 +71,11 @@ namespace Project01.Controllers
                     {
                         if (item.Name.Contains(Search))
                         {
-                            searchList.Add(item);
+                            findList.Add(item);
                         }
                     }
                 }
-                    return View("ListItems", searchList);
+                    return View("ListItems", findList);
             }
 
         }
@@ -119,17 +119,17 @@ namespace Project01.Controllers
 
 
         [HttpPost]
-        public ActionResult Delete(string search)
+        public ActionResult Delete(string find)
         {
             var context = new AppDbContext();
-            var it = context.Items.FirstOrDefault(x => x.Name == search);
+            var it = context.Items.FirstOrDefault(x => x.Name == find);
 
             context.Items.Remove(it);
             var affectedRows = context.SaveChanges();
 
             if (affectedRows > 0)
             {
-                ViewBag.Message = "Item " + search + " deleted.";
+                ViewBag.Message = "Item " + find + " deleted.";
                 return RedirectToAction("Index", "Home");
             }
             else

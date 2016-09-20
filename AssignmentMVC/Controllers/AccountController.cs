@@ -28,6 +28,25 @@ namespace Project01.Controllers
 
 
 
+
+
+        //
+        // GET: /Account/ConfirmEmail
+        [AllowAnonymous]
+        public async Task<ActionResult> ConfirmEmail(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return View("Error");
+            }
+            var result = await UserManager.ConfirmEmailAsync(userId, code);
+            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+        }
+
+
+
+
+
         [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult> AddUser(AppUserVM model)
@@ -51,20 +70,18 @@ namespace Project01.Controllers
                 {
                     var regUser = await UserManager.FindByNameAsync(model.UserName);
 
+
                     if (model.Admin == true)
-                    {
                         await UserManager.AddToRoleAsync(regUser.Id, "Admin");
-                    }
                     else
-                    {
                         await UserManager.AddToRoleAsync(regUser.Id, "User");
-                    }
+
 
                     LogInVM vmod = new LogInVM();
 
-                    vmod.Password = model.Password;
-                    vmod.UserName = model.UserName;
 
+                    vmod.UserName = model.UserName;
+                    vmod.Password = model.Password;
                     await Login(vmod);
                     return RedirectToAction("Index", "Home");
                 }
@@ -75,7 +92,30 @@ namespace Project01.Controllers
             }
             // Not OK
             return View("RegUser", model);
-        }    
+        }
+
+
+        [AllowAnonymous]
+        public ActionResult RegUser()
+        {
+            return View();
+        }
+
+
+
+
+        //
+        // GET: /Account/ForgotPassword
+        [AllowAnonymous]
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+
+
+
+
 
         [AllowAnonymous]
         public ActionResult Login()
@@ -83,11 +123,18 @@ namespace Project01.Controllers
             return View();
         }
 
+
+
+        //
+        // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
-        public ActionResult RegUser()
+        public ActionResult ForgotPasswordConfirmation()
         {
             return View();
         }
+
+
+
 
         [HttpPost]
         [AllowAnonymous]
@@ -97,6 +144,7 @@ namespace Project01.Controllers
             {
                 var status = await SignIn.PasswordSignInAsync(user.UserName, user.Password,
                     isPersistent: false, shouldLockout: true);
+
 
 
                 switch (status)
@@ -114,12 +162,6 @@ namespace Project01.Controllers
             // Not OK
             return View(user);
         }
-
-
-
-
-
-
 
 
 

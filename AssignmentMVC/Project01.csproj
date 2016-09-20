@@ -253,6 +253,14 @@
     <Compile Include="Migrations\201609120824592_07.Designer.cs">
       <DependentUpon>201609120824592_07.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609201203092_08.cs" />
+    <Compile Include="Migrations\201609201203092_08.Designer.cs">
+      <DependentUpon>201609201203092_08.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609201217224_09.cs" />
+    <Compile Include="Migrations\201609201217224_09.Designer.cs">
+      <DependentUpon>201609201217224_09.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AppDbContext.cs" />
     <Compile Include="Models\AppUser.cs" />
@@ -303,6 +311,8 @@
     <Content Include="Views\Shop\ListShopItems.cshtml" />
     <Content Include="Views\Shared\_shopItem.cshtml" />
     <Content Include="Views\Shared\_showCartMsg.cshtml" />
+    <Content Include="Views\Shop\ListShopCart.cshtml" />
+    <Content Include="Views\Shared\_shopCart.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -338,6 +348,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609120824592_07.resx">
       <DependentUpon>201609120824592_07.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609201203092_08.resx">
+      <DependentUpon>201609201203092_08.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609201217224_09.resx">
+      <DependentUpon>201609201217224_09.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

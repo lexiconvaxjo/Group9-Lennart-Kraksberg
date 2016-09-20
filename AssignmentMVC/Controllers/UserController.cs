@@ -17,9 +17,9 @@ namespace Project01.Controllers
     public class UserController : Controller
     {
 
-        public async Task<ActionResult> Delete(string search)
+        public async Task<ActionResult> Delete(string find)
         {
-            var user = await UserManager.FindByEmailAsync(search);
+            var user = await UserManager.FindByEmailAsync(find);
             var res = await UserManager.DeleteAsync(user);
 
             return RedirectToAction("Index", "Home");
@@ -46,7 +46,7 @@ namespace Project01.Controllers
 
 
         [HttpPost]
-        public ActionResult SearchUser(string Search)
+        public ActionResult SearchUser(string Find)
         {
             var Users = UserManager.Users.ToList().Select(x => new UserVM
             {
@@ -61,11 +61,11 @@ namespace Project01.Controllers
                 Id = x.Id
             }).ToList();
 
-            List<UserVM> searchList = new List<UserVM>();
+            List<UserVM> findList = new List<UserVM>();
 
             if (Users == null)
             {
-                return View("ListUsers", searchList);
+                return View("ListUsers", findList);
             }
             else
             {
@@ -73,13 +73,13 @@ namespace Project01.Controllers
                 {
                     if (item.FirstName != null && item.LastName != null && item.Email != null)
                     {
-                        if (item.FirstName.Contains(Search) || item.LastName.Contains(Search) || item.Email.Contains(Search))
+                        if (item.FirstName.Contains(Find) || item.LastName.Contains(Find) || item.Email.Contains(Find))
                         {
-                            searchList.Add(item);
+                            findList.Add(item);
                         }
                     }
                 }
-                return View("ListUsers", searchList);
+                return View("ListUsers", findList);
             }
 
         }
@@ -129,10 +129,6 @@ namespace Project01.Controllers
             // Not OK
             return View("RegUser", model);
         }
-
-
-
-
 
 
 

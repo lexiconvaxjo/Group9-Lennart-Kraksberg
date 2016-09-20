@@ -52,7 +52,7 @@ namespace Project01.Controllers
 
 
         [HttpPost]
-        public ActionResult SearchOrder(string Search)
+        public ActionResult SearchOrder(string Find)
         {
             var context = new AppDbContext();
 
@@ -72,30 +72,30 @@ namespace Project01.Controllers
                 Total = x.Total,
             }).ToList();
 
-            List<OrderVM> searchList = new List<OrderVM>();
+            List<OrderVM> findList = new List<OrderVM>();
             int numSearch = 0;
 
             if (Orders == null)
             {
-                return View("ListOrders", searchList);
+                return View("ListOrders", findList);
             }
             else
             {
                 foreach (var item in Orders)
                 {
-                    if (Search == "")
+                    if (Find == "")
                     {
-                        searchList.Add(item);
+                        findList.Add(item);
                     }
                     else
                     {
-                        numSearch = int.Parse(Search);
+                        numSearch = int.Parse(Find);
                         if (item.OrderId == numSearch)
-                            searchList.Add(item);
+                            findList.Add(item);
                     }
 
                 }
-                return View("ListOrders", searchList);
+                return View("ListOrders", findList);
             }
 
         }
@@ -147,17 +147,17 @@ namespace Project01.Controllers
 
 
 
-        public ActionResult Delete(int search)
+        public ActionResult Delete(int find)
         {
             var context = new AppDbContext();
-            var od = context.Orders.FirstOrDefault(x => x.OrderId == search);
+            var od = context.Orders.FirstOrDefault(x => x.OrderId == find);
 
             context.Orders.Remove(od);
             var affectedRows = context.SaveChanges();
 
             if (affectedRows > 0)
             {
-                ViewBag.Message = "Order detail " + search + " deleted.";
+                ViewBag.Message = "Order detail " + find + " deleted.";
                 return RedirectToAction("Index", "Home");
             }
             else

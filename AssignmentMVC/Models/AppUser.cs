@@ -17,6 +17,7 @@ namespace Project01.Models
             var userIdentity = await manager.CreateIdentityAsync(
                 user: this, authenticationType: DefaultAuthenticationTypes.ApplicationCookie
                 );
+            // Add custom user claims here
             return userIdentity;
         }
 

@@ -21,22 +21,5 @@ namespace Project01.Models
         public string City { get; set; }
 
 
-
-        public People()
-        {
-
-        }
-
-
-
-
-        public People(string Name, string PhoneNumber, string City)
-        {
-            this.Name = Name;
-            this.PhoneNumber = PhoneNumber;
-            this.City = City;
-        }
-
-
     }
 }

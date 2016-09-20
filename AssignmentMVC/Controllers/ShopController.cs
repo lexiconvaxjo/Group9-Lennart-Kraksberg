@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Project01.VM;
 
 namespace Project01.Controllers
 {
@@ -37,10 +38,20 @@ namespace Project01.Controllers
 
 
 
+
+
+
         public ActionResult RenderShopItem(Item p)
         {
             return PartialView("_shopItem", p);
         }
+
+
+        public ActionResult RenderShopCart(CartVM p)
+        {
+            return PartialView("_shopCart", p);
+        }
+
 
 
         [AllowAnonymous]
@@ -87,6 +98,64 @@ namespace Project01.Controllers
             return PartialView("_shopItem", item);
 
         }
+
+
+        public ActionResult ListShopCart()
+        {
+            var context = new AppDbContext();
+
+            var Carts = context.Carts.ToList().Select(x => new Cart
+            {
+                ID = x.ID,
+                CartId = x.CartId,
+                ItemId = x.ItemId,
+                Price = x.Price,
+                Quantity = x.Quantity,
+                DateCreated = x.DateCreated,
+            }).ToList();
+
+            List<CartVM> Carts2 = new List<CartVM>();
+
+            //
+            if (Carts == null)
+            {
+                return View("ListShopCart", Carts2);
+            }
+            else
+            {
+                string wId;
+                if (Request.IsAuthenticated)
+                    wId = User.Identity.GetUserName();
+                else
+                    wId = Session.SessionID.ToString();
+
+                foreach (var item in Carts)
+                {
+                    var product = context.Items.FirstOrDefault(x => x.ItemId == item.ItemId);
+
+                    if (item.CartId == wId && product != null)
+                    {
+                        var cart2 = new CartVM();
+
+                        cart2.ID = item.ID;
+                        cart2.CartId = item.CartId;
+                        cart2.ItemId = item.ItemId;
+                        cart2.ItemName = product.Name;
+                        cart2.ItemDescription = product.Description;
+                        cart2.Price = item.Price;
+                        cart2.Quantity = item.Quantity;
+                        cart2.DateCreated = item.DateCreated; 
+
+                        Carts2.Add(cart2);
+                    }
+                }
+                return View("ListShopCart", Carts2);
+            }
+
+            //
+        }
+
+
 
 
 

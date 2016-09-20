@@ -61,12 +61,12 @@ namespace Project01.Controllers
 
             }).ToList();
 
-            List<Cart> searchList = new List<Cart>();
+            List<Cart> findList = new List<Cart>();
            // int numSearch = 0;
 
             if (Carts == null)
             {
-                return View("ListCarts", searchList);
+                return View("ListCarts", findList);
             }
             else
             {
@@ -74,17 +74,17 @@ namespace Project01.Controllers
                 {
                     if (Search == "")
                     {
-                        searchList.Add(item);
+                        findList.Add(item);
                     }
                     else
                     {
                       //  numSearch = int.Parse(Search);
                         if (item.CartId == Search)
-                            searchList.Add(item);
+                            findList.Add(item);
                     }
 
                 }
-                return View("ListCarts", searchList);
+                return View("ListCarts", findList);
             }
 
         }

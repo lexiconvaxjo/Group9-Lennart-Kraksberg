@@ -45,7 +45,7 @@ namespace Project01.Controllers
 
 
         [HttpPost]
-        public ActionResult SearchOrderDetail(string Search)
+        public ActionResult SearchOrderDetail(string Find)
         {
             var context = new AppDbContext();
 
@@ -58,30 +58,30 @@ namespace Project01.Controllers
                 UnitPrice = x.UnitPrice,
             }).ToList();
 
-            List<OrderDetail> searchList = new List<OrderDetail>();
+            List<OrderDetail> findList = new List<OrderDetail>();
             int numSearch = 0;
 
             if (OrderDetails == null)
             {
-                return View("ListOrderDetails", searchList);
+                return View("ListOrderDetails", findList);
             }
             else
             {
                 foreach (var item in OrderDetails)
                 {
-                    if (Search == "")
+                    if (Find == "")
                     {
-                        searchList.Add(item);
+                        findList.Add(item);
                     }
                     else
                     {
-                         numSearch = int.Parse(Search);
+                         numSearch = int.Parse(Find);
                         if (item.OrderId == numSearch)
-                            searchList.Add(item);
+                            findList.Add(item);
                     }
 
                 }
-                return View("ListOrderDetails", searchList);
+                return View("ListOrderDetails", findList);
             }
 
         }
@@ -124,17 +124,17 @@ namespace Project01.Controllers
 
 
 
-        public ActionResult Delete(int search)
+        public ActionResult Delete(int find)
         {
             var context = new AppDbContext();
-            var od = context.OrderDetails.FirstOrDefault(x => x.OrderDetailId == search);
+            var od = context.OrderDetails.FirstOrDefault(x => x.OrderDetailId == find);
 
             context.OrderDetails.Remove(od);
             var affectedRows = context.SaveChanges();
 
             if (affectedRows > 0)
             {
-                ViewBag.Message = "Order detail " + search + " deleted.";
+                ViewBag.Message = "Order detail " + find + " deleted.";
                 return RedirectToAction("Index", "Home");
             }
             else
