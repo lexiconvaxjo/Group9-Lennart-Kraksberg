@@ -1,4 +1,4 @@
-# Group9-Lennart-Kraksberg
+﻿# Group9-Lennart-Kraksberg
 Lennart Kråksberg Project
 
 Web shop Project.
@@ -11,8 +11,9 @@ Week 38 - 39: The Web shop, single page.
 
 Web shop Project Specifications
 
-The project is creating a web shop. 
-The web shop´s shopping cart and the views, displaying all the products, should take place in a single page, without reloading (using MVC, Ajax, partial views). The user should be able to login and be authorized using Identity classes, for shopping history.
+The project is creating a web shop with litterature for vintage vehicles. 
+The web shop´s shopping cart and the views, displaying all the products will use MVC, Ajax, partial views. 
+The user should be able to login and be authorized using Identity classes, for shopping history.
 There shall be an admin interface to be able to edit products, users, orders etc...
 
 Required Features:
@@ -29,7 +30,7 @@ Optional:
 
 Code Requirements:
 
-• Use of AJAX to make sure that the web shop can be used without ever reloading the page.
+• Use of AJAX.
 • Use of Partial Views both with and without AJAX.
 • Bootstrap for the menus and overall site
 • Your own custom CSS classes, in addition to customizing bootstrap
