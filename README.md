@@ -5,7 +5,7 @@ Web shop Project.
 
 Time plan:
 Week 36 - 37: Identity, Database, Admin interface.
-Week 38 - 39: The Web shop, single page.
+Week 38 - 39: The Web shop.
 
 
 
