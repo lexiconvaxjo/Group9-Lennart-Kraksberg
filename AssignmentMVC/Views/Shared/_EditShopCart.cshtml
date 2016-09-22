@@ -1,0 +1,61 @@
+﻿@model Project01.VM.CartVM
+
+
+
+<div id="Cart-@Model.ID">
+    @using (Ajax.BeginForm("Edit", "Shop", new { id = Model.ID },
+                                                                    new AjaxOptions
+                                                                    {
+                                                                        HttpMethod = "POST",
+                                                                        UpdateTargetId = "Cart-" + Model.ID,
+                                                                        InsertionMode = InsertionMode.Replace
+                                                                    }))
+    {
+
+
+        <div>
+            @Html.TextBoxFor(x => Model.ID, new { @type = "hidden" })
+        </div>
+
+        <div class="col-xs-2">
+             @Html.TextBoxFor(x => Model.ItemName, new { @readonly = "readonly" })
+        </div>
+        <div class="col-xs-3">
+            @Html.TextBoxFor(x => Model.ItemDescription , new { @readonly = "readonly" })
+        </div>
+        <div class="col-xs-2">
+            @Html.TextBoxFor(x => Model.Price, new { @readonly = "readonly" })
+        </div>
+        <div class="col-xs-3">
+            @Html.TextBoxFor(m => Model.Quantity, new { })
+        </div>
+
+
+        <div class="col-xs-1">
+            <input type="submit" value="Save" class="btn btn-sm btn-info" />
+        </div>
+    }
+
+
+
+
+    <div class="col-xs-1">
+
+        @using (Ajax.BeginForm("Cancel", "Shop", new { id = Model.ID },
+                                    new AjaxOptions
+                                    {
+                                        HttpMethod = "POST",
+                                        UpdateTargetId = "Cart-" + Model.ID,
+                                        InsertionMode = InsertionMode.Replace
+                                    }))
+
+
+        {
+            <input type="submit" value="Cancel" class="btn btn-sm btn-info" />
+        }
+    </div>
+
+
+
+</div>
+

@@ -11,6 +11,9 @@ namespace Project01.Controllers
 {
     public class ShopController : Controller
     {
+
+
+
         // GET: Shop
         public ActionResult Index()
         {
@@ -19,8 +22,22 @@ namespace Project01.Controllers
 
 
 
+
+
         public ActionResult ListShopItems()
         {
+
+// --------------------------------------------------          
+            // Save Session Id
+            // Used as key in Carts table
+
+            if (Session["SessId"] == null)
+            {
+                string wid = Session.SessionID.ToString();
+                Session.Add("SessId", wid);
+            }
+// --------------------------------------------------          
+
             var context = new AppDbContext();
 
             var Items = context.Items.ToList().Select(x => new Item
@@ -67,12 +84,7 @@ namespace Project01.Controllers
 
                 var cart = new Cart();
 
-                if (Request.IsAuthenticated)
-                    cart.CartId = User.Identity.GetUserName();
-                else
-                    cart.CartId = Session.SessionID.ToString();
-
-
+                cart.CartId = Session["SessId"] as string;
                 cart.ItemId = item.ItemId;
                 cart.Price = item.Price;
                 cart.Quantity = 1;
@@ -123,17 +135,12 @@ namespace Project01.Controllers
             }
             else
             {
-                string wId;
-                if (Request.IsAuthenticated)
-                    wId = User.Identity.GetUserName();
-                else
-                    wId = Session.SessionID.ToString();
 
                 foreach (var item in Carts)
                 {
                     var product = context.Items.FirstOrDefault(x => x.ItemId == item.ItemId);
 
-                    if (item.CartId == wId && product != null)
+                    if (item.CartId == Session["SessId"] as string && product != null)
                     {
                         var cart2 = new CartVM();
 
@@ -155,6 +162,120 @@ namespace Project01.Controllers
             //
         }
 
+
+
+
+        public ActionResult Delete(int search)
+        {
+            var context = new AppDbContext();
+            var ca = context.Carts.FirstOrDefault(x => x.ID == search);
+
+            context.Carts.Remove(ca);
+            var affectedRows = context.SaveChanges();
+
+            if (affectedRows > 0)
+            {
+                ViewBag.Message = "Cart " + search + " deleted.";
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                ViewBag.Message = "Something went wrong!";
+                return View();
+            }
+
+        }
+
+
+
+
+        [HttpPost]
+        public ActionResult Edit([Bind(Include = "ID, ItemName, ItemDescription, Price, Quantity")]CartVM p)
+        {
+            var context = new AppDbContext();
+            var ca = context.Carts.FirstOrDefault(x => x.ID == p.ID);
+
+            if (ModelState.IsValid)
+            {
+                ca.Quantity = p.Quantity;
+                var affectedRows = context.SaveChanges();
+
+                return PartialView("_shopCart", p);
+            }
+            else
+            {
+                var product = context.Items.FirstOrDefault(x => x.ItemId == ca.ItemId);
+                var cart2 = new CartVM();
+
+                if (product != null)
+                {
+                    cart2.ID = ca.ID;
+                    cart2.CartId = ca.CartId;
+                    cart2.ItemId = ca.ItemId;
+                    cart2.ItemName = product.Name;
+                    cart2.ItemDescription = product.Description;
+                    cart2.Price = ca.Price;
+                    cart2.Quantity = ca.Quantity;
+                    cart2.DateCreated = ca.DateCreated;
+                }
+
+                return PartialView("_shopCart", cart2);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditCart(int id = 0)
+        {
+            var context = new AppDbContext();
+            var ca = context.Carts.FirstOrDefault(x => x.ID == id);
+
+            var product = context.Items.FirstOrDefault(x => x.ItemId == ca.ItemId);
+            var cart2 = new CartVM();
+
+            if (product != null)
+            {
+                cart2.ID = ca.ID;
+                cart2.CartId = ca.CartId;
+                cart2.ItemId = ca.ItemId;
+                cart2.ItemName = product.Name;
+                cart2.ItemDescription = product.Description;
+                cart2.Price = ca.Price;
+                cart2.Quantity = ca.Quantity;
+                cart2.DateCreated = ca.DateCreated;
+            }
+
+            return PartialView("_EditShopCart", cart2);
+        }
+
+
+
+
+
+
+        [HttpPost]
+        public ActionResult Cancel(int id = 0)
+        {
+            var context = new AppDbContext();
+            var ca = context.Carts.FirstOrDefault(x => x.ID == id);
+
+            var product = context.Items.FirstOrDefault(x => x.ItemId == ca.ItemId);
+            var cart2 = new CartVM();
+
+            if (product != null)
+            {
+                cart2.ID = ca.ID;
+                cart2.CartId = ca.CartId;
+                cart2.ItemId = ca.ItemId;
+                cart2.ItemName = product.Name;
+                cart2.ItemDescription = product.Description;
+                cart2.Price = ca.Price;
+                cart2.Quantity = ca.Quantity;
+                cart2.DateCreated = ca.DateCreated;
+            }
+
+
+            return PartialView("_shopCart", cart2);
+        }
 
 
 

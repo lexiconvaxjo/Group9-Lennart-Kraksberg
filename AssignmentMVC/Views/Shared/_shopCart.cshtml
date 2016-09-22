@@ -2,11 +2,12 @@
 
 <div id="Cart-@Model.ID">
 
-    <div class="col-xs-3"> @Model.ID . @Model.CartId </div>
-    <div class="col-xs-2"> @Model.ItemId </div>
-    <div class="col-xs-1"> @Model.Price </div>
-    <div class="col-xs-1"> @Model.Quantity </div>
-    <div class="col-xs-3"> @Model.DateCreated </div>
+
+
+    <div class="col-xs-2"> @Model.ItemName </div>
+    <div class="col-xs-3"> @Model.ItemDescription </div>
+    <div class="col-xs-2"> @Model.Price </div>
+    <div class="col-xs-3"> @Model.Quantity </div>
 
     <div class="col-xs-1">
         @using (Ajax.BeginForm("EditCart", "Shop", new { id = Model.ID },
