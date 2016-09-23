@@ -51,7 +51,7 @@ namespace Project01.Controllers
         /// <param name="Search"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult SearchItem(string Search)
+        public ActionResult SearchItem(string Find)
         {
             var context = new AppDbContext();
 
@@ -77,7 +77,7 @@ namespace Project01.Controllers
                 {
                     if (item.Name != null)
                     {
-                        if (item.Name.Contains(Search))
+                        if (item.Name.Contains(Find))
                         {
                             findList.Add(item);
                         }
@@ -155,6 +155,7 @@ namespace Project01.Controllers
             }
 
         }
+
 
         /// <summary>
         /// Edit a product in the database

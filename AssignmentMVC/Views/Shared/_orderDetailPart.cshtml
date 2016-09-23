@@ -2,6 +2,6 @@
 
 <li class="list-group-item col-sm-6"> Order detail Id: @Model.OrderDetailId Order Id: @Model.OrderId Item Id: @Model.ItemId Quantity: @Model.Quantity Unit price: @Model.UnitPrice </li>
 <li class="list-group-item">
-    @Html.ActionLink("Delete", "Delete", "OrderDetail", new { search = Model.OrderDetailId }, 0)
+    @Html.ActionLink("Delete", "Delete", "OrderDetail", new { find = Model.OrderDetailId }, 0)
 </li>
 

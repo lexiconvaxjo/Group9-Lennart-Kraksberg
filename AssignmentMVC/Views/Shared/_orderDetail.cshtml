@@ -26,7 +26,7 @@
 
 
     <div class="col-xs-1">
-        @using (Ajax.BeginForm("Delete", "OrderDetail", new { search = Model.OrderDetailId },
+        @using (Ajax.BeginForm("Delete", "OrderDetail", new { find = Model.OrderDetailId },
                         new AjaxOptions
                         {
                             HttpMethod = "POST",
