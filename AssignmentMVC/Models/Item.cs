@@ -6,6 +6,11 @@ using System.Web;
 
 namespace Project01.Models
 {
+
+
+    /// <summary>
+    /// Product table
+    /// </summary>
     public class Item
     {
         [Key]

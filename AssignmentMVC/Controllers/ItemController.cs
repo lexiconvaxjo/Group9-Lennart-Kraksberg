@@ -11,13 +11,16 @@ namespace Project01.Controllers
     [Authorize(Roles = "Admin")]
     public class ItemController : Controller
     {
-        // GET: Item
+
         public ActionResult Index()
         {
             return View();
         }
 
-
+        /// <summary>
+        /// Show picture of available products
+        /// </summary>
+        /// <returns></returns>
         public ActionResult ListItems()
         {
             var context = new AppDbContext();
@@ -42,6 +45,11 @@ namespace Project01.Controllers
         }
 
 
+        /// <summary>
+        /// Search products by item.Name
+        /// </summary>
+        /// <param name="Search"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult SearchItem(string Search)
         {
@@ -81,7 +89,11 @@ namespace Project01.Controllers
         }
 
 
-
+        /// <summary>
+        /// Add a product to the database
+        /// </summary>
+        /// <param name="model">Item</param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
         public ActionResult AddItem(Item model)
@@ -117,7 +129,11 @@ namespace Project01.Controllers
         }
 
 
-
+        /// <summary>
+        /// Delete a product from the database
+        /// </summary>
+        /// <param name="find"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Delete(string find)
         {
@@ -140,7 +156,11 @@ namespace Project01.Controllers
 
         }
 
-
+        /// <summary>
+        /// Edit a product in the database
+        /// </summary>
+        /// <param name="p">Item</param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Edit([Bind(Include = "ItemId, Name, Price, Picture, Description, StockQty")]Item p)
         {
@@ -166,6 +186,12 @@ namespace Project01.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Edit a Item in the database
+        /// </summary>
+        /// <param name="id">ItemId</param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult EditItem(int id = 0)
         {

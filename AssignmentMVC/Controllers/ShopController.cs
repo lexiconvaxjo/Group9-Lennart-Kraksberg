@@ -12,9 +12,6 @@ namespace Project01.Controllers
     public class ShopController : Controller
     {
 
-
-
-        // GET: Shop
         public ActionResult Index()
         {
             return View();
@@ -22,8 +19,10 @@ namespace Project01.Controllers
 
 
 
-
-
+        /// <summary>
+        /// Show a list of available products to buy
+        /// </summary>
+        /// <returns></returns>
         public ActionResult ListShopItems()
         {
 
@@ -57,20 +56,34 @@ namespace Project01.Controllers
 
 
 
-
+        /// <summary>
+        /// Show list of products, partial
+        /// </summary>
+        /// <param name="p">Item</param>
+        /// <returns></returns>
         public ActionResult RenderShopItem(Item p)
         {
             return PartialView("_shopItem", p);
         }
 
 
+
+        /// <summary>
+        /// Show a list of products in the shopping cart
+        /// </summary>
+        /// <param name="p">CartVM</param>
+        /// <returns></returns>
         public ActionResult RenderShopCart(CartVM p)
         {
             return PartialView("_shopCart", p);
         }
 
 
-
+        /// <summary>
+        /// The customer have clicked on the "Buy" button on the product list
+        /// </summary>
+        /// <param name="id">ItemId</param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
         public ActionResult BuyItem(int id = 0)
@@ -111,7 +124,10 @@ namespace Project01.Controllers
 
         }
 
-
+        /// <summary>
+        /// Show a list of the products in the shopping cart
+        /// </summary>
+        /// <returns></returns>
         public ActionResult ListShopCart()
         {
             var context = new AppDbContext();
@@ -164,7 +180,11 @@ namespace Project01.Controllers
 
 
 
-
+        /// <summary>
+        /// Deletes an row in the Cart
+        /// </summary>
+        /// <param name="search">ID</param>
+        /// <returns></returns>
         public ActionResult Delete(int search)
         {
             var context = new AppDbContext();
@@ -188,7 +208,11 @@ namespace Project01.Controllers
 
 
 
-
+        /// <summary>
+        /// Edit a row in the shopping cart, change of quantity
+        /// </summary>
+        /// <param name="p">CartVM</param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Edit([Bind(Include = "ID, ItemName, ItemDescription, Price, Quantity")]CartVM p)
         {
@@ -223,6 +247,11 @@ namespace Project01.Controllers
             }
         }
 
+        /// <summary>
+        /// Edit a row in the shopping cart 
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult EditCart(int id = 0)
         {
@@ -251,7 +280,11 @@ namespace Project01.Controllers
 
 
 
-
+        /// <summary>
+        /// Cancel the edit task of an row in the shopping cart
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Cancel(int id = 0)
         {

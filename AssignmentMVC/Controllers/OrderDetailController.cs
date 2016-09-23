@@ -11,13 +11,17 @@ namespace Project01.Controllers
     [Authorize(Roles = "Admin")]
     public class OrderDetailController : Controller
     {
-        // GET: Order detail
         public ActionResult Index()
         {
             return View();
         }
 
 
+
+        /// <summary>
+        /// Show a list of the Order details
+        /// </summary>
+        /// <returns></returns>
         public ActionResult ListOrderDetails()
         {
             var context = new AppDbContext();
@@ -35,7 +39,11 @@ namespace Project01.Controllers
         }
 
 
-
+        /// <summary>
+        /// Show the list of Order details, partial view
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         public ActionResult RenderOrderDetail(OrderDetail p)
         {
             return PartialView("_orderDetail", p);
@@ -43,7 +51,11 @@ namespace Project01.Controllers
 
 
 
-
+        /// <summary>
+        /// Searc th Order detail table, by OrderId
+        /// </summary>
+        /// <param name="Find"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult SearchOrderDetail(string Find)
         {
@@ -87,7 +99,11 @@ namespace Project01.Controllers
         }
 
 
-
+        /// <summary>
+        /// Add an Order detail to the database
+        /// </summary>
+        /// <param name="model">OrderDetail</param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
         public ActionResult AddOrderDetail(OrderDetail model)
@@ -123,7 +139,11 @@ namespace Project01.Controllers
 
 
 
-
+        /// <summary>
+        /// Delete an Order detail from the database
+        /// </summary>
+        /// <param name="find">OrderDetailId</param>
+        /// <returns></returns>
         public ActionResult Delete(int find)
         {
             var context = new AppDbContext();
@@ -146,7 +166,11 @@ namespace Project01.Controllers
         }
 
 
-
+        /// <summary>
+        /// Edit an Order detail in the database
+        /// </summary>
+        /// <param name="p">OrderDetail</param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Edit([Bind(Include = "OrderDetailId, OrderId, ItemId, Quantity, UnitPrice")]OrderDetail p)
         {
@@ -171,6 +195,13 @@ namespace Project01.Controllers
             }
         }
 
+
+
+        /// <summary>
+        /// Edit an Order detail in the database
+        /// </summary>
+        /// <param name="id">OrderDetailId</param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult EditOrderDetail(int id = 0)
         {
@@ -180,6 +211,12 @@ namespace Project01.Controllers
             return PartialView("_EditOrderDetail", orderDetail);
         }
 
+
+        /// <summary>
+        /// Cancel the Edit task
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Cancel(int id = 0)
         {

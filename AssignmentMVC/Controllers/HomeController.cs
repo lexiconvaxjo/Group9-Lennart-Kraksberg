@@ -13,7 +13,10 @@ namespace Project01.Controllers
 
     {
 
-
+        /// <summary>
+        /// Starting page
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
 
@@ -22,15 +25,25 @@ namespace Project01.Controllers
             ViewBag.Message2 = "Click on Webshop for Manuals, Exploded Views and more...";
             return View();
         }
-              
+         
+        
+        /// <summary>
+        /// Some information
+        /// </summary>
+        /// <returns></returns>
         public ActionResult About()
         {
             ViewBag.Title = "About";
-            ViewBag.Message = "Some information";
+            ViewBag.Message = "Web shop project. Lexicon Växjö 2016";
 
             return View();
         }
 
+
+        /// <summary>
+        /// Contact information
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Contact()
         {
             ViewBag.Title = "Name and address";

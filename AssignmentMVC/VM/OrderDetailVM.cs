@@ -5,6 +5,10 @@ using System.Web;
 
 namespace Project01.VM
 {
+
+    /// <summary>
+    /// Order details
+    /// </summary>
     public class OrderDetailVM
     {
         public int OrderDetailId { get; set; }

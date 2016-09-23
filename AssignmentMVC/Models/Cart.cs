@@ -6,6 +6,11 @@ using System.Web;
 
 namespace Project01.Models
 {
+
+
+    /// <summary>
+    /// Shopping Cart, temporary table
+    /// </summary>
     public class Cart
     {
         [Key]

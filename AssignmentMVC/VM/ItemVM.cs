@@ -5,6 +5,10 @@ using System.Web;
 
 namespace Project01.VM
 {
+
+    /// <summary>
+    /// Products
+    /// </summary>
     public class ItemVM
     {
         public int ItemId { get; set; }

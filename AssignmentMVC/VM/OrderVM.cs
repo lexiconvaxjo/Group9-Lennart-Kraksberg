@@ -6,6 +6,11 @@ using System.Web;
 
 namespace Project01.VM
 {
+
+
+    /// <summary>
+    /// Order details
+    /// </summary>
     public class OrderVM
     {
         public int OrderId { get; set; }

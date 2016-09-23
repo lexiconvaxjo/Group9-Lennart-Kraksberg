@@ -6,6 +6,10 @@ using System.Web;
 
 namespace Project01.Models
 {
+
+    /// <summary>
+    /// Order head
+    /// </summary>
     public class Order
     {
         [Key]

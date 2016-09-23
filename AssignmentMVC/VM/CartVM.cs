@@ -5,6 +5,11 @@ using System.Web;
 
 namespace Project01.VM
 {
+
+
+    /// <summary>
+    /// Shopping cart
+    /// </summary>
     public class CartVM
     {
         public int ID { get; set; }

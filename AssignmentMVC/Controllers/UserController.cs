@@ -17,6 +17,12 @@ namespace Project01.Controllers
     public class UserController : Controller
     {
 
+
+        /// <summary>
+        /// Delete a user
+        /// </summary>
+        /// <param name="find">Email</param>
+        /// <returns></returns>
         public async Task<ActionResult> Delete(string find)
         {
             var user = await UserManager.FindByEmailAsync(find);
@@ -26,6 +32,11 @@ namespace Project01.Controllers
         }
 
 
+
+        /// <summary>
+        /// Show a list of the users
+        /// </summary>
+        /// <returns></returns>
         public ActionResult ListUsers()
         {
             var Users = UserManager.Users.ToList().Select(x => new UserVM
@@ -45,6 +56,12 @@ namespace Project01.Controllers
         }
 
 
+
+        /// <summary>
+        /// Search users by Firsname, Lastname or Email
+        /// </summary>
+        /// <param name="Find"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult SearchUser(string Find)
         {
@@ -85,7 +102,11 @@ namespace Project01.Controllers
         }
 
 
-
+        /// <summary>
+        /// Show a list of users, partial view
+        /// </summary>
+        /// <param name="p">UserVM</param>
+        /// <returns></returns>
         public ActionResult RenderUser(UserVM p)
         {
             return PartialView("_userPart", p);
@@ -93,7 +114,13 @@ namespace Project01.Controllers
 
 
 
-
+        /// <summary>
+        /// Add a user
+        /// </summary>
+        /// <param name="model">UserVM</param>
+        /// <param name="UserName"></param>
+        /// <param name="Password"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult> AddUser(UserVM model, string UserName, string Password)

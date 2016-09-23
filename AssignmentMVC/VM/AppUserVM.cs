@@ -6,6 +6,11 @@ using System.Web;
 
 namespace Project01.VM
 {
+
+
+    /// <summary>
+    /// Application user
+    /// </summary>
     public class AppUserVM 
     {
 

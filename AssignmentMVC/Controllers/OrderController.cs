@@ -11,13 +11,17 @@ namespace Project01.Controllers
     [Authorize(Roles = "Admin")]
     public class OrderController : Controller
     {
-        // GET: Order detail
         public ActionResult Index()
         {
             return View();
         }
 
 
+
+        /// <summary>
+        /// Show a list of orders in the database
+        /// </summary>
+        /// <returns></returns>
         public ActionResult ListOrders()
         {
             var context = new AppDbContext();
@@ -42,7 +46,11 @@ namespace Project01.Controllers
         }
 
 
-
+        /// <summary>
+        /// Skapa listan, partial
+        /// </summary>
+        /// <param name="p">OrderVM</param>
+        /// <returns></returns>
         public ActionResult RenderOrder(OrderVM p)
         {
             return PartialView("_orderPart", p);
@@ -50,7 +58,11 @@ namespace Project01.Controllers
 
 
 
-
+        /// <summary>
+        /// Search Order by OrderId
+        /// </summary>
+        /// <param name="Find"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult SearchOrder(string Find)
         {
@@ -101,7 +113,11 @@ namespace Project01.Controllers
         }
 
 
-
+        /// <summary>
+        /// Add an Order to the database
+        /// </summary>
+        /// <param name="model">OrderVM</param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
         public ActionResult AddOrder(OrderVM model)
@@ -146,7 +162,11 @@ namespace Project01.Controllers
 
 
 
-
+        /// <summary>
+        /// Delete an order from the database
+        /// </summary>
+        /// <param name="find">OrderId</param>
+        /// <returns></returns>
         public ActionResult Delete(int find)
         {
             var context = new AppDbContext();

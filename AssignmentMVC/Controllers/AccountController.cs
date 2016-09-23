@@ -18,7 +18,10 @@ namespace Project01.Controllers
     public class AccountController : Controller
     {
 
-
+        /// <summary>
+        /// Logging out a user
+        /// </summary>
+        /// <returns></returns>
         public ActionResult LogOut()
         {
             SignIn.AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
@@ -29,9 +32,12 @@ namespace Project01.Controllers
 
 
 
-
-        //
-        // GET: /Account/ConfirmEmail
+        /// <summary>
+        /// Confirm Email
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="code"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
@@ -45,8 +51,11 @@ namespace Project01.Controllers
 
 
 
-
-
+        /// <summary>
+        /// Add a user
+        /// </summary>
+        /// <param name="model">AppUserVM</param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult> AddUser(AppUserVM model)
@@ -98,6 +107,11 @@ namespace Project01.Controllers
         }
 
 
+
+        /// <summary>
+        /// Add a user
+        /// </summary>
+        /// <returns></returns>
         [AllowAnonymous]
         public ActionResult RegUser()
         {
@@ -106,9 +120,10 @@ namespace Project01.Controllers
 
 
 
-
-        //
-        // GET: /Account/ForgotPassword
+        /// <summary>
+        /// Forgot password
+        /// </summary>
+        /// <returns></returns>
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
@@ -119,7 +134,10 @@ namespace Project01.Controllers
 
 
 
-
+        /// <summary>
+        /// Login
+        /// </summary>
+        /// <returns></returns>
         [AllowAnonymous]
         public ActionResult Login()
         {
@@ -128,8 +146,10 @@ namespace Project01.Controllers
 
 
 
-        //
-        // GET: /Account/ForgotPasswordConfirmation
+        /// <summary>
+        /// Forgot password confirmation
+        /// </summary>
+        /// <returns></returns>
         [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation()
         {
@@ -138,7 +158,11 @@ namespace Project01.Controllers
 
 
 
-
+        /// <summary>
+        /// Log in
+        /// </summary>
+        /// <param name="user">LogInVM</param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         public async Task<ActionResult> Login(LogInVM user)
