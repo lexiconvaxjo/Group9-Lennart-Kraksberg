@@ -211,7 +211,6 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
@@ -300,12 +299,8 @@
     <Content Include="Views\Shared\_orderDetailPart.cshtml" />
     <Content Include="Views\Order\ListOrders.cshtml" />
     <Content Include="Views\Shared\_orderPart.cshtml" />
-    <Content Include="Views\Cart\ListCarts.cshtml" />
-    <Content Include="Views\Shared\_cartPart.cshtml" />
     <Content Include="Views\Shared\_item.cshtml" />
     <Content Include="Views\Shared\_EditItem.cshtml" />
-    <Content Include="Views\Shared\_cart.cshtml" />
-    <Content Include="Views\Shared\_EditCart.cshtml" />
     <Content Include="Views\Shared\_orderDetail.cshtml" />
     <Content Include="Views\Shared\_EditOrderDetail.cshtml" />
     <Content Include="Views\Shop\ListShopItems.cshtml" />
