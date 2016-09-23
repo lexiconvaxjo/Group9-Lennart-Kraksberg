@@ -38,43 +38,44 @@
                         <li>@Html.ActionLink("Contact", "Contact", "Home") </li>
 
 
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Admin
+                                    <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Users", "ListUsers", "User")</li>
+                                    <li>@Html.ActionLink("Products", "ListItems", "Item")</li>
+                                    <li>@Html.ActionLink("Orders", "ListOrders", "Order")</li>
+                                    <li>@Html.ActionLink("Order details", "ListOrderDetails", "OrderDetail")</li>
+                                </ul>
+                            </li>
+                    }
 
 
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Admin
-                                <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Users", "ListUsers", "User")</li>
-                                <li>@Html.ActionLink("Products", "ListItems", "Item")</li>
-                                <li>@Html.ActionLink("Orders", "ListOrders", "Order")</li>
-                                <li>@Html.ActionLink("Order details", "ListOrderDetails", "OrderDetail")</li>
-                            </ul>
-                        </li>
+                            <li>@Html.ActionLink("Webshop", "ListShopItems", "Shop") </li>
 
 
 
-                        <li>@Html.ActionLink("Webshop", "ListShopItems", "Shop") </li>
+                        </ul>
+                        @Html.Partial("_inOut")
+                    </div>
 
 
-
-                    </ul>
-                    @Html.Partial("_inOut")
                 </div>
-
-
             </div>
-        </div>
 
-        <div class="container body-content">
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year-@DateTime.Now.Month-@DateTime.Now.Day - Lennart Kråksberg</p>
-            </footer>
-        </div>
+            <div class="container body-content">
+                @RenderBody()
+                <hr />
+                <footer>
+                    <p>&copy; @DateTime.Now.Year-@DateTime.Now.Month-@DateTime.Now.Day - Lennart Kråksberg</p>
+                </footer>
+            </div>
 
-        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-        <script src="~/Scripts/bootstrap.min.js"></script>
-        <script src="~/scripts/jquery.unobtrusive-ajax.js"></script>
-    </body>
-</html>
+            <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+            <script src="~/Scripts/bootstrap.min.js"></script>
+            <script src="~/scripts/jquery.unobtrusive-ajax.js"></script>
+        </body>
+    </html>
