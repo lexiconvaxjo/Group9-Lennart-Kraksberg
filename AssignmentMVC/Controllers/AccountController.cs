@@ -71,10 +71,13 @@ namespace Project01.Controllers
                     var regUser = await UserManager.FindByNameAsync(model.UserName);
 
 
-                    if (model.Admin == true)
-                        await UserManager.AddToRoleAsync(regUser.Id, "Admin");
-                    else
-                        await UserManager.AddToRoleAsync(regUser.Id, "User");
+                    //    if (model.Admin == true)
+                    //        await UserManager.AddToRoleAsync(regUser.Id, "Admin");
+                    //    else
+                    //        await UserManager.AddToRoleAsync(regUser.Id, "User");
+
+                     await UserManager.AddToRoleAsync(regUser.Id, "User");
+
 
 
                     LogInVM vmod = new LogInVM();

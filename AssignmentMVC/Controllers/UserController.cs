@@ -118,7 +118,18 @@ namespace Project01.Controllers
                 if (res.Succeeded)
                 {
                     var regUser = await UserManager.FindByNameAsync(UserName);
-                    await UserManager.AddToRoleAsync(regUser.Id, "User");
+
+
+
+                    // await UserManager.AddToRoleAsync(regUser.Id, "User");
+
+                    if (model.Admin == true)
+                        await UserManager.AddToRoleAsync(regUser.Id, "Admin");
+                    else
+                        await UserManager.AddToRoleAsync(regUser.Id, "User");
+
+
+
                     return RedirectToAction("Index", "Home");
                 }
                 else

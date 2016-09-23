@@ -45,7 +45,7 @@
 @using (Html.BeginForm("AddUser", "User", FormMethod.Post))
 {
 
-    <div class="form-group form-inline">
+    <div class="form-group form-inline col-xs-12">
 
         <div class="col-xs-3">
             @Html.Label("Username :")
@@ -88,10 +88,15 @@
             @Html.Label("Confirm password :")
             @Html.TextBox("ConfirmPassword", null, new { @class = "form-control" })
 
-            <input type="submit" value="Add" class="btn btn-sm btn-info" />
+            @Html.Label("Admin :")
+            <input type="checkbox" name="Admin" value="True" />
+
 
 
         </div>
+        <br />
+
+        <input type="submit" value="Add" class="btn btn-sm btn-info" />
 
        </div>
 
