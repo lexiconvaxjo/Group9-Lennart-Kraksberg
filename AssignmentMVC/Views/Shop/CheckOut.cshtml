@@ -1,0 +1,119 @@
+﻿@model  Project01.VM.InvoiceAddressVM
+
+
+
+@{
+    ViewBag.Title = "CheckOut";
+}
+
+<br />
+<br />
+
+<h2>Order Address</h2>
+
+<br />
+<br />
+
+@using (Html.BeginForm("SubmitOrder", "Shop", FormMethod.Post))
+{
+    <div class="form-group">
+
+        <div class="col-xs-12">
+
+            <div class="col-xs-2">
+                @Html.Label("First name :")
+            </div>
+            <div class="col-xs-2">
+                @Html.TextBoxFor(m => Model.FirstName, new { })
+            </div>
+            <div class="col-xs-2">
+                @Html.Label("Last name :")
+            </div>
+            <div class="col-xs-2">
+                @Html.TextBoxFor(m => Model.LastName, new { })
+        </div>
+
+            </div>
+
+        <br />
+        <br />
+
+        <div class="col-xs-12">
+
+            <div class="col-xs-2">
+                @Html.Label("Email :")
+            </div>
+            <div class="col-xs-2">
+                @Html.TextBoxFor(m => Model.Email, new { })
+            </div>
+            <div class="col-xs-2">
+                @Html.Label("Phone number :")
+            </div>
+            <div class="col-xs-2">
+                @Html.TextBoxFor(m => Model.PhoneNumber, new { })
+            </div>
+
+         </div>
+
+        <br />
+        <br />
+
+        <div class="col-xs-12">
+
+            <div class="col-xs-2">
+                @Html.Label("Country :")
+            </div>
+            <div class="col-xs-2">
+                @Html.TextBoxFor(m => Model.Country, new { })
+            </div>
+            <div class="col-xs-2">
+                @Html.Label("City :")
+            </div>
+            <div class="col-xs-2">
+                @Html.TextBoxFor(m => Model.City, new { })
+            </div>
+
+        </div>
+
+        <br />
+        <br />
+
+        <div class="col-xs-12">
+
+            <div class="col-xs-2">
+                @Html.Label("Address :")
+            </div>
+            <div class="col-xs-2">
+                @Html.TextBoxFor(m => Model.Address, new { })
+            </div>
+            <div class="col-xs-2">
+                @Html.Label("Postal code :")
+            </div>
+            <div class="col-xs-2">
+                @Html.TextBoxFor(m => Model.PostalCode, new { })
+            </div>
+
+
+        </div>
+
+        <br />
+        <br />
+        <br />
+        <br />
+
+        <input type="submit" value="Send order" class="btn btn-sm btn-info" />
+
+
+        </div>
+
+        <br />
+        <br />
+        <br />
+        <br />
+
+}
+
+        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/scripts/bootstrap.min.js"></script>

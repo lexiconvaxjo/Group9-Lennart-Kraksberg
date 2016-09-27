@@ -30,16 +30,8 @@ namespace Project01.Controllers
             {
                 OrderId = x.OrderId,
                 OrderDate = x.OrderDate,
-                UserName = x.UserName,
-                FirstName = x.FirstName,
-                LastName = x.LastName,
-                Email = x.Email,
-                PhoneNumber = x.PhoneNumber,
-                Country = x.Country,
-                City = x.City,
-                Address = x.Address,
-                PostalCode = x.PostalCode,
                 Total = x.Total,
+                CartId = x.CartId,
             }).ToList();
 
             return View(Orders);
@@ -72,16 +64,8 @@ namespace Project01.Controllers
             {
                 OrderId = x.OrderId,
                 OrderDate = x.OrderDate,
-                UserName = x.UserName,
-                FirstName = x.FirstName,
-                LastName = x.LastName,
-                Email = x.Email,
-                PhoneNumber = x.PhoneNumber,
-                Country = x.Country,
-                City = x.City,
-                Address = x.Address,
-                PostalCode = x.PostalCode,
                 Total = x.Total,
+                CartId = x.CartId
             }).ToList();
 
             List<OrderVM> findList = new List<OrderVM>();
@@ -131,15 +115,6 @@ namespace Project01.Controllers
                 //  order.OrderDate = 
                 // order.OrderDate = new DateTime(2016, 09, 12);
                 order.OrderDate = DateTime.Now;
-                order.UserName = model.UserName;
-                order.FirstName = model.FirstName;
-                order.LastName = model.LastName;
-                order.Email = model.Email;
-                order.PhoneNumber = model.PhoneNumber;
-                order.Country = model.Country;
-                order.City = model.City;
-                order.Address = model.Address;
-                order.PostalCode = model.PostalCode;
                 order.Total = model.Total;
 
                 context.Orders.Add(order);
@@ -177,7 +152,7 @@ namespace Project01.Controllers
 
             if (affectedRows > 0)
             {
-                ViewBag.Message = "Order detail " + find + " deleted.";
+                ViewBag.Message = "Order " + find + " deleted.";
                 return RedirectToAction("Index", "Home");
             }
             else

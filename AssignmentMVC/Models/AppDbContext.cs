@@ -34,5 +34,8 @@ namespace Project01.Models
 
         public DbSet<OrderDetail> OrderDetails { get; set; }
 
+        public DbSet<InvoiceAddress> InvoiceAddresses { get; set; }
+
+
     }
 }

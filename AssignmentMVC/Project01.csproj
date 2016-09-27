@@ -260,12 +260,25 @@
     <Compile Include="Migrations\201609201217224_09.Designer.cs">
       <DependentUpon>201609201217224_09.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609260859507_10.cs" />
+    <Compile Include="Migrations\201609260859507_10.Designer.cs">
+      <DependentUpon>201609260859507_10.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609260903231_11.cs" />
+    <Compile Include="Migrations\201609260903231_11.Designer.cs">
+      <DependentUpon>201609260903231_11.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609260924120_12.cs" />
+    <Compile Include="Migrations\201609260924120_12.Designer.cs">
+      <DependentUpon>201609260924120_12.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AppDbContext.cs" />
     <Compile Include="Models\AppUser.cs" />
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Country.cs" />
+    <Compile Include="Models\InvoiceAddress.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderDetail.cs" />
@@ -274,6 +287,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="VM\AppUserVM.cs" />
     <Compile Include="VM\CartVM.cs" />
+    <Compile Include="VM\InvoiceAddressVM.cs" />
     <Compile Include="VM\ItemVM.cs" />
     <Compile Include="VM\LogInVM.cs" />
     <Compile Include="VM\OrderVM.cs" />
@@ -309,6 +323,8 @@
     <Content Include="Views\Shop\ListShopCart.cshtml" />
     <Content Include="Views\Shared\_shopCart.cshtml" />
     <Content Include="Views\Shared\_EditShopCart.cshtml" />
+    <Content Include="Views\Shop\CheckOut.cshtml" />
+    <Content Include="Views\Shop\OrderConfirm.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -350,6 +366,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609201217224_09.resx">
       <DependentUpon>201609201217224_09.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609260859507_10.resx">
+      <DependentUpon>201609260859507_10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609260903231_11.resx">
+      <DependentUpon>201609260903231_11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609260924120_12.resx">
+      <DependentUpon>201609260924120_12.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

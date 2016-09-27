@@ -6,11 +6,53 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Project01.VM;
+using static Project01.App_start.AppUserManager;
+using Project01.App_start;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace Project01.Controllers
 {
     public class ShopController : Controller
     {
+
+
+        public ShopController()
+        {
+        }
+
+
+        private AppRole _role;
+        public AppRole RoleManager
+        {
+            get { return _role ?? HttpContext.GetOwinContext().Get<AppRole>(); }
+            set { _role = value; }
+        }
+
+
+
+        private AppSignIn _signIn;
+        public AppSignIn SignIn
+        {
+            get { return _signIn ?? HttpContext.GetOwinContext().Get<AppSignIn>(); }
+            set { _signIn = value; }
+        }
+
+
+        public ShopController(AppRole role, AppUserManager userManager, AppSignIn signIn)
+        {
+            _role = role;
+            _signIn = signIn;
+            _userManager = userManager;
+        }
+
+
+        private AppUserManager _userManager;
+        public AppUserManager UserManager
+        {
+            get { return _userManager ?? HttpContext.GetOwinContext().GetUserManager<AppUserManager>(); }
+            set { _userManager = value; }
+        }
+
 
         public ActionResult Index()
         {
@@ -108,14 +150,16 @@ namespace Project01.Controllers
 
                 if (affectedRows > 0)
                 {
-                    ViewBag.Message = "Item " + item.Name + " added.";
-                      return PartialView("_shopItem", item);
+                  //  ViewBag.Message = "Item " + item.Name + " added.";
+                    ViewData["Message"] = "Product " + item.Name + " added to your cart." ;
+                    return PartialView("_shopItem", item);
                      // return PartialView("_showCartMsg", item);
 
                 }
                 else
                 {
-                    ViewBag.Message = "Something went wrong!";
+                 //   ViewBag.Message = "Something went wrong!";
+                    ViewData["Message"] = "Something went wrong!";
                     return PartialView("_shopItem", item);
                 }
             }
@@ -311,11 +355,154 @@ namespace Project01.Controllers
             return PartialView("_shopCart", cart2);
         }
 
+        /// <summary>
+        /// Enter invoice address and place order
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult CheckOut()
+        {
 
+            var invAdr  = new InvoiceAddressVM();
+
+            // If logged in, get address from Identity user
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var context = new AppDbContext();
+                var usid = User.Identity.GetUserName();
+                var us = context.Users.FirstOrDefault(x => x.UserName == usid );
+
+                if (us != null)
+                {
+                    invAdr.FirstName = us.FirstName;
+                    invAdr.LastName = us.LastName;
+                    invAdr.Email = us.Email;
+                    invAdr.PhoneNumber = us.PhoneNumber;
+                    invAdr.Country = us.Country;
+                    invAdr.City = us.City;
+                    invAdr.Address = us.Address;
+                    invAdr.PostalCode = us.PostalCode;
+                }
+
+
+            }
+
+            return View(invAdr);
+        }
+
+        [HttpPost]
+        public ActionResult SubmitOrder([Bind(Include = "FirstName, LastName, Email, PhoneNumber, Country, City, Address, PostalCode")]InvoiceAddressVM a)
+
+        {
+            // Create Order
+
+            decimal orderTotal = 0;
+            decimal rowAmount = 0;
+
+            var context = new AppDbContext();
+
+            var order = new Order();
+
+            order.OrderDate = DateTime.Now;
+            order.Total = 0;
+            var cId = Session["SessId"] as string;
+            order.CartId = cId;
+            context.Orders.Add(order);
+            var affectedRows = context.SaveChanges();
+
+
+            // Create OrderDetails
+
+            // get order id from Order table
+            var or = context.Orders.FirstOrDefault(x => x.CartId == cId);
+            var wOrderId = or.OrderId;
+
+            if (or != null)
+            {
+                var carts = context.Carts.ToList().Select(x => new Cart
+                {
+                    CartId = x.CartId,
+                    ItemId = x.ItemId,
+                    Price = x.Price,
+                    Quantity = x.Quantity,
+                    DateCreated = x.DateCreated,
+                }).ToList();
+
+                if (carts != null)
+                {
+                    foreach (var item in carts)
+                    {
+                        if (item.CartId == cId)
+                        {
+                            var od = new OrderDetail();
+                            od.OrderId = wOrderId;
+                            od.ItemId = item.ItemId;
+                            od.Quantity = item.Quantity;
+                            od.UnitPrice = item.Price;
+
+                            // add to ordertotal
+                            rowAmount = item.Price * item.Quantity;
+                            orderTotal = orderTotal + rowAmount;
+
+                            context.OrderDetails.Add(od);
+                            affectedRows = context.SaveChanges();
+                        }
+                    }
+
+                    // update total amount in Order table
+                    or = context.Orders.FirstOrDefault(x => x.CartId == cId);
+                    if (or != null)
+                    {
+                        or.Total = orderTotal;
+                        context.SaveChanges();
+
+                    }
+                }
+
+
+                // create or update Invoice Address
+
+                var iAdr = new InvoiceAddress();
+
+                iAdr.FirstName = a.FirstName;
+                iAdr.LastName = a.LastName;
+                iAdr.Email = a.Email;
+                iAdr.PhoneNumber = a.PhoneNumber;
+                iAdr.Country = a.Country;
+                iAdr.City = a.City;
+                iAdr.Address = a.Address;
+                iAdr.PostalCode = a.PostalCode;
+
+
+                var ia = context.InvoiceAddresses.FirstOrDefault(x => x.Email == a.Email);
+
+                if (ia == null)
+                {
+                    context.InvoiceAddresses.Add(iAdr);
+                    affectedRows = context.SaveChanges();
+                }
+                else
+                { 
+                     context.SaveChanges();
+                 }
+
+         }
+
+
+
+
+
+
+
+
+            //return View("CheckOut", a);
+            return RedirectToAction("Index", "Home");
+
+        }
 
 
 
 
 
     }
-}
+    }

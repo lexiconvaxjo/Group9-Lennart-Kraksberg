@@ -1,0 +1,48 @@
+﻿
+@model  List<Project01.VM.CartVM>
+
+<h1>Order Conformation</h1>
+<br />
+<h2>Thank you for your shopping! Welcome back another day!</h2>
+
+
+<div class="col-xs-12">
+    <div class="col-xs-11"> </div>
+    <div class="col-xs-1 text-danger btn-warning ">@Html.ActionLink("Exit Shop", "Exit", "Shop")  </div>
+</div>
+
+<h4>@ViewBag.Message</h4>
+
+<br />
+<hr />
+
+<div class="col-xs-2"> Name </div>
+<div class="col-xs-3"> Description </div>
+<div class="col-xs-2"> Price </div>
+<div class="col-xs-3"> Quantity </div>
+<div class="col-xs-1">  </div>
+<div class="col-xs-1">  </div>
+
+<br />
+<hr />
+
+<div class="container" id="showPartial">
+
+    @foreach (var item in Model)
+    {
+        Html.RenderAction("RenderShopCart", "Shop", new { p = item });
+    }
+
+</div>
+
+
+
+<br />
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/scripts/bootstrap.min.js"></script>
+
+
+
