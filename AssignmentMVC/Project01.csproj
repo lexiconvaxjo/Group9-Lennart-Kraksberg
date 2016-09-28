@@ -325,6 +325,7 @@
     <Content Include="Views\Shared\_EditShopCart.cshtml" />
     <Content Include="Views\Shop\CheckOut.cshtml" />
     <Content Include="Views\Shop\OrderConfirm.cshtml" />
+    <Content Include="Views\Shared\_shopConfirm.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

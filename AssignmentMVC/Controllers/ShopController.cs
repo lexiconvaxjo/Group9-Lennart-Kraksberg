@@ -120,6 +120,17 @@ namespace Project01.Controllers
             return PartialView("_shopCart", p);
         }
 
+        /// <summary>
+        /// Show a list of products in the shopping cart
+        /// for the order confirmation view
+        /// </summary>
+        /// <param name="p">CartVM</param>
+        /// <returns></returns>
+        public ActionResult RenderOrderConfirm(CartVM p)
+        {
+            return PartialView("_shopConfirm", p);
+        }
+
 
         /// <summary>
         /// The customer have clicked on the "Buy" button on the product list
@@ -473,6 +484,16 @@ namespace Project01.Controllers
                 iAdr.Address = a.Address;
                 iAdr.PostalCode = a.PostalCode;
 
+                // --------------------------------------------------          
+                // Save Email address
+                // Used as key in Invoice Address table
+
+                if (Session["Email"] == null)
+                {
+                    string wem = a.Email;
+                    Session.Add("Email", wem);
+                }
+                // --------------------------------------------------          
 
                 var ia = context.InvoiceAddresses.FirstOrDefault(x => x.Email == a.Email);
 
@@ -489,16 +510,149 @@ namespace Project01.Controllers
          }
 
 
-
-
-
-
-
-
             //return View("CheckOut", a);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("OrderConfirm", "Shop");
 
         }
+
+
+
+
+        /// <summary>
+        /// Show Order Confirmation
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult OrderConfirm()
+        {
+            var context = new AppDbContext();
+
+            var Carts = context.Carts.ToList().Select(x => new Cart
+            {
+                ID = x.ID,
+                CartId = x.CartId,
+                ItemId = x.ItemId,
+                Price = x.Price,
+                Quantity = x.Quantity,
+                DateCreated = x.DateCreated,
+            }).ToList();
+
+            List<CartVM> Carts2 = new List<CartVM>();
+
+            //
+            if (Carts == null)
+            {
+                return View("OrderConfirm", Carts2);
+            }
+            else
+            {
+
+                foreach (var item in Carts)
+                {
+                    var product = context.Items.FirstOrDefault(x => x.ItemId == item.ItemId);
+
+                    if (item.CartId == Session["SessId"] as string && product != null)
+                    {
+                        var cart2 = new CartVM();
+
+                        cart2.ID = item.ID;
+                        cart2.CartId = item.CartId;
+                        cart2.ItemId = item.ItemId;
+                        cart2.ItemName = product.Name;
+                        cart2.ItemDescription = product.Description;
+                        cart2.Price = item.Price;
+                        cart2.Quantity = item.Quantity;
+                        cart2.DateCreated = item.DateCreated;
+
+                        Carts2.Add(cart2);
+                    }
+                }
+
+                // Get order total
+                var cId = Session["SessId"] as string;
+                var or = context.Orders.FirstOrDefault(x => x.CartId == cId);
+                if (or != null)
+                {
+                    ViewBag.Total = "Order total: " + or.Total;
+                }
+
+                // Get Invoice Address
+                var wem = Session["Email"] as string;
+                var ia = context.InvoiceAddresses.FirstOrDefault(x => x.Email == wem);
+
+                if (ia != null)
+                {
+                    ViewBag.Name = "Name: " + ia.FirstName + " " + ia.LastName;
+                    ViewBag.City = "City: " + ia.City;
+                    ViewBag.Address = "Address: " + ia.PostalCode + " " + ia.Address;
+                    ViewBag.Country = "Country: " + ia.Country;
+
+                    ViewBag.Email = "Email: " + ia.Email;
+                    ViewBag.PhoneNumber = "Phone number: " + ia.PhoneNumber;
+                }
+
+
+
+                return View("OrderConfirm", Carts2);
+
+            }
+
+        }
+
+        /// <summary>
+        /// Exit Shop
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Exit()
+        {
+            var cId = Session["SessId"] as string;
+            var context = new AppDbContext();
+
+            var Carts = context.Carts.ToList().Select(x => new Cart
+            {
+                ID = x.ID,
+                CartId = x.CartId,
+                ItemId = x.ItemId,
+                Price = x.Price,
+                Quantity = x.Quantity,
+                DateCreated = x.DateCreated,
+            }).ToList();
+
+            //
+            if (Carts == null)
+            {
+                Session.Remove("SessId");
+                Session.Remove("Email");
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+
+                foreach (var item in Carts)
+                {
+
+                    if (item.CartId == Session["SessId"] as string)
+                    {
+                        // Empty the cart
+                        var ca = context.Carts.FirstOrDefault(x => x.CartId == cId);
+
+                        if (ca != null)
+                        {
+                            context.Carts.Remove(ca);
+                            var affectedRows = context.SaveChanges();
+                        }
+                    }
+                }
+
+                Session.Remove("SessId");
+                Session.Remove("Email");
+
+                return RedirectToAction("Index", "Home");
+            }
+
+        }
+
+
+
 
 
 
