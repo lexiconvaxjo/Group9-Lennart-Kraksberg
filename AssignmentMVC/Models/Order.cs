@@ -18,6 +18,7 @@ namespace Project01.Models
 
         public decimal Total  { get; set; }
         public string CartId { get; set; }
+        public string Email { get; set; }
 
         List<OrderDetail> OrderDetails { get; set; }
 

@@ -116,7 +116,9 @@ namespace Project01.Controllers
                 if (affectedRows > 0)
                 {
                     ViewBag.Message = "Item " + model.Name + " added.";
-                    return RedirectToAction("Index", "Home");
+                    //   return RedirectToAction("Index", "Home");
+                       return RedirectToAction("ListItems", "Item");
+
                 }
                 else
                 {

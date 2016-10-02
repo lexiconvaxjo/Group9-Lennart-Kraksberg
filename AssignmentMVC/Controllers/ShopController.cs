@@ -132,6 +132,20 @@ namespace Project01.Controllers
         }
 
 
+
+        /// <summary>
+        /// Show shopping history
+        /// </summary>
+        /// <param name="p">HistoryVM</param>
+        /// <returns></returns>
+        public ActionResult RenderOrderHistory(HistoryVM p)
+        {
+            return PartialView("_shopHistory", p);
+        }
+
+
+
+
         /// <summary>
         /// The customer have clicked on the "Buy" button on the product list
         /// </summary>
@@ -418,6 +432,7 @@ namespace Project01.Controllers
             order.Total = 0;
             var cId = Session["SessId"] as string;
             order.CartId = cId;
+            order.Email = a.Email;
             context.Orders.Add(order);
             var affectedRows = context.SaveChanges();
 
@@ -654,6 +669,101 @@ namespace Project01.Controllers
 
 
 
+        /// <summary>
+        /// Shopping history
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ListShopHistory()
+        {
+
+            var context = new AppDbContext();
+            string wEmail = " ";
+
+            // If logged in, get email from Identity user
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var usid = User.Identity.GetUserName();
+                var us = context.Users.FirstOrDefault(x => x.UserName == usid);
+
+                if (us != null)
+                {
+                   wEmail = us.Email;
+                }
+            }
+
+            // Get order details
+            var odet  = context.OrderDetails.ToList().Select(x => new OrderDetail 
+            {
+                OrderDetailId = x.OrderDetailId,
+                OrderId = x.OrderId,
+                ItemId = x.ItemId,
+                UnitPrice = x.UnitPrice,
+                Quantity = x.Quantity,
+            }).ToList();
+
+            List<HistoryVM> History = new List<HistoryVM>();
+
+            if (odet != null)
+            {
+                foreach (var item in odet)
+                {
+                    // Get order head
+                    var or = context.Orders.FirstOrDefault(x => x.OrderId == item.OrderId);
+
+                    if (or != null && or.Email == wEmail)
+                    {
+                        // Get item name
+                        var it = context.Items.FirstOrDefault(x => x.ItemId == item.ItemId);
+
+                        if(it != null)
+                        {
+                            var hist = new HistoryVM();
+                            hist.OrderId = item.OrderId;
+                            hist.ItemName = it.Name;
+                            hist.Price = item.UnitPrice;
+                            hist.Quantity = item.Quantity;
+                            hist.OrderDate = or.OrderDate;
+                            History.Add(hist);
+
+                        }
+
+                    }
+
+
+
+
+                }
+            }
+
+            // Get Invoice Address
+            var ia = context.InvoiceAddresses.FirstOrDefault(x => x.Email == wEmail);
+
+            if (ia != null)
+            {
+                ViewBag.Name = "Name: " + ia.FirstName + " " + ia.LastName;
+                ViewBag.City = "City: " + ia.City;
+                ViewBag.Address = "Address: " + ia.PostalCode + " " + ia.Address;
+                ViewBag.Country = "Country: " + ia.Country;
+
+                ViewBag.Email = "Email: " + ia.Email;
+                ViewBag.PhoneNumber = "Phone number: " + ia.PhoneNumber;
+            }
+
+            return View("OrderHistory", History);
+
+        }
+
+
+        /// <summary>
+        /// Exit History
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ExitHistory()
+        {
+            return RedirectToAction("Index", "Home");
+
+        }
 
 
 

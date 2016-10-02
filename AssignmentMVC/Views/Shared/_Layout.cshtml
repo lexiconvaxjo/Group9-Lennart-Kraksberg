@@ -54,9 +54,14 @@
                     }
 
 
-                            <li>@Html.ActionLink("Webshop", "ListShopItems", "Shop") </li>
 
+                         <li>@Html.ActionLink("Webshop", "ListShopItems", "Shop") </li>
 
+                    @if (User.Identity.IsAuthenticated)
+                        {
+
+                            <li>@Html.ActionLink("History", "ListShopHistory", "Shop") </li>
+                        }
 
                         </ul>
                         @Html.Partial("_inOut")
