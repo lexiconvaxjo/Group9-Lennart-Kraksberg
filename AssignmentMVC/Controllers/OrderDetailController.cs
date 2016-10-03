@@ -125,7 +125,9 @@ namespace Project01.Controllers
                 if (affectedRows > 0)
                 {
                     ViewBag.Message = "Order detail added.";
-                    return RedirectToAction("Index", "Home");
+                    //  return RedirectToAction("Index", "Home");
+                      return RedirectToAction("ListOrderDetails", "OrderDetail");
+
                 }
                 else
                 {
@@ -146,20 +148,33 @@ namespace Project01.Controllers
         public ActionResult Delete(int find)
         {
             var context = new AppDbContext();
+            var od2 = new OrderDetail();
+            int affectedRows = 0;
             var od = context.OrderDetails.FirstOrDefault(x => x.OrderDetailId == find);
 
-            context.OrderDetails.Remove(od);
-            var affectedRows = context.SaveChanges();
+            if (od != null)
+            {
+                od2.OrderDetailId = od.OrderDetailId;
+                od2.OrderId = 0;
+                od2.ItemId = 0;
+                od2.Quantity = 0;
+                od2.UnitPrice = 0;
+
+                context.OrderDetails.Remove(od);
+                affectedRows = context.SaveChanges();
+            }
 
             if (affectedRows > 0)
             {
                 ViewBag.Message = "Order detail " + find + " deleted.";
-                return RedirectToAction("Index", "Home");
+                return PartialView("_orderDetail", od2);
+                // return RedirectToAction("Index", "Home");
             }
             else
             {
                 ViewBag.Message = "Something went wrong!";
-                return View();
+                // return View();
+                return PartialView("_orderDetail", od2);
             }
 
         }

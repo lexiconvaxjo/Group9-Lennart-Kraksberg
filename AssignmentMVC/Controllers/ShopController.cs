@@ -258,20 +258,35 @@ namespace Project01.Controllers
         public ActionResult Delete(int search)
         {
             var context = new AppDbContext();
+            int affectedRows = 0;
             var ca = context.Carts.FirstOrDefault(x => x.ID == search);
 
-            context.Carts.Remove(ca);
-            var affectedRows = context.SaveChanges();
+            var cart2 = new CartVM();
+
+            if (ca != null)
+            {
+                cart2.ID = ca.ID;
+                cart2.ItemName = "Deleted";
+                cart2.ItemDescription = " ";
+                cart2.Price = 0;
+                cart2.Quantity = 0;
+
+                context.Carts.Remove(ca);
+                affectedRows = context.SaveChanges();
+            }
 
             if (affectedRows > 0)
             {
                 ViewBag.Message = "Cart " + search + " deleted.";
-                return RedirectToAction("Index", "Home");
+             //   return RedirectToAction("Index", "Home");
+                return PartialView("_shopCart", cart2);
+
             }
             else
             {
                 ViewBag.Message = "Something went wrong!";
-                return View();
+              //  return View();
+                return PartialView("_shopCart", cart2);
             }
 
         }
@@ -289,7 +304,7 @@ namespace Project01.Controllers
             var context = new AppDbContext();
             var ca = context.Carts.FirstOrDefault(x => x.ID == p.ID);
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && ca != null)
             {
                 ca.Quantity = p.Quantity;
                 var affectedRows = context.SaveChanges();
@@ -298,19 +313,23 @@ namespace Project01.Controllers
             }
             else
             {
-                var product = context.Items.FirstOrDefault(x => x.ItemId == ca.ItemId);
                 var cart2 = new CartVM();
 
-                if (product != null)
+                if (ca != null)
                 {
                     cart2.ID = ca.ID;
                     cart2.CartId = ca.CartId;
                     cart2.ItemId = ca.ItemId;
-                    cart2.ItemName = product.Name;
-                    cart2.ItemDescription = product.Description;
                     cart2.Price = ca.Price;
                     cart2.Quantity = ca.Quantity;
                     cart2.DateCreated = ca.DateCreated;
+                    var product = context.Items.FirstOrDefault(x => x.ItemId == ca.ItemId);
+                    if (product != null)
+                    {
+                        cart2.ItemName = product.Name;
+                        cart2.ItemDescription = product.Description;
+                    }
+
                 }
 
                 return PartialView("_shopCart", cart2);
@@ -325,19 +344,23 @@ namespace Project01.Controllers
         [HttpPost]
         public ActionResult EditCart(int id = 0)
         {
+            var cart2 = new CartVM();
+
             var context = new AppDbContext();
             var ca = context.Carts.FirstOrDefault(x => x.ID == id);
 
-            var product = context.Items.FirstOrDefault(x => x.ItemId == ca.ItemId);
-            var cart2 = new CartVM();
 
-            if (product != null)
+            if (ca != null)
             {
+                var product = context.Items.FirstOrDefault(x => x.ItemId == ca.ItemId);
                 cart2.ID = ca.ID;
                 cart2.CartId = ca.CartId;
                 cart2.ItemId = ca.ItemId;
-                cart2.ItemName = product.Name;
-                cart2.ItemDescription = product.Description;
+                if (product != null)
+                {
+                    cart2.ItemName = product.Name;
+                    cart2.ItemDescription = product.Description;
+                }
                 cart2.Price = ca.Price;
                 cart2.Quantity = ca.Quantity;
                 cart2.DateCreated = ca.DateCreated;
@@ -359,23 +382,27 @@ namespace Project01.Controllers
         public ActionResult Cancel(int id = 0)
         {
             var context = new AppDbContext();
-            var ca = context.Carts.FirstOrDefault(x => x.ID == id);
-
-            var product = context.Items.FirstOrDefault(x => x.ItemId == ca.ItemId);
             var cart2 = new CartVM();
 
-            if (product != null)
+            var ca = context.Carts.FirstOrDefault(x => x.ID == id);
+
+            if (ca != null)
             {
                 cart2.ID = ca.ID;
                 cart2.CartId = ca.CartId;
                 cart2.ItemId = ca.ItemId;
-                cart2.ItemName = product.Name;
-                cart2.ItemDescription = product.Description;
                 cart2.Price = ca.Price;
                 cart2.Quantity = ca.Quantity;
                 cart2.DateCreated = ca.DateCreated;
-            }
 
+                var product = context.Items.FirstOrDefault(x => x.ItemId == ca.ItemId);
+                if (product != null)
+                {
+                    cart2.ItemName = product.Name;
+                    cart2.ItemDescription = product.Description;
+
+                }
+            }
 
             return PartialView("_shopCart", cart2);
         }
