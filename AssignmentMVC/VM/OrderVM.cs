@@ -17,6 +17,7 @@ namespace Project01.VM
         public System.DateTime OrderDate { get; set; }
         public decimal Total { get; set; }
         public string CartId { get; set; }
+        public string Email { get; set; }
         List<OrderDetail> OrderDetails { get; set; }
 
     }

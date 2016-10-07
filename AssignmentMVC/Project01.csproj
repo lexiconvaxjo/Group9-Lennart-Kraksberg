@@ -333,6 +333,8 @@
     <Content Include="Views\Shared\_shopConfirm.cshtml" />
     <Content Include="Views\Shop\OrderHistory.cshtml" />
     <Content Include="Views\Shared\_shopHistory.cshtml" />
+    <Content Include="Views\Shared\_order.cshtml" />
+    <Content Include="Views\Shared\_EditOrder.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -191,7 +191,7 @@ namespace Project01.Controllers
             var context = new AppDbContext();
             var od = context.OrderDetails.FirstOrDefault(x => x.OrderDetailId == p.OrderDetailId);
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && od != null)
             {
                 od.OrderId = p.OrderId;
                 od.ItemId = p.ItemId;
@@ -205,7 +205,9 @@ namespace Project01.Controllers
             }
             else
             {
-                return PartialView("_orderDetail", od);
+                var od2 = new OrderDetail();
+                od2.OrderDetailId = p.OrderDetailId;
+                return PartialView("_orderDetail", od2);
             }
         }
 
@@ -222,7 +224,17 @@ namespace Project01.Controllers
             var context = new AppDbContext();
 
             var orderDetail = context.OrderDetails.FirstOrDefault(x => x.OrderDetailId == id);
-            return PartialView("_EditOrderDetail", orderDetail);
+
+            if (orderDetail == null)
+            {
+                orderDetail = new OrderDetail();
+                orderDetail.OrderDetailId = id;
+                return PartialView("_orderDetail", orderDetail);
+            }
+            else
+            {
+                return PartialView("_EditOrderDetail", orderDetail);
+            }
         }
 
 

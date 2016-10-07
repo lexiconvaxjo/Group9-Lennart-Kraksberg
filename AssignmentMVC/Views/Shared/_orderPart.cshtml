@@ -1,6 +1,6 @@
 ﻿@model  Project01.VM.OrderVM
 
-<li class="list-group-item col-sm-6"> Order Id: @Model.OrderId Order date: @Model.OrderDate Total: @Model.Total </li>
+<li class="list-group-item col-sm-6"> Order Id: @Model.OrderId Order date: @Model.OrderDate Total: @Model.Total Email: @Model.Email </li>
 <li class="list-group-item">
     @Html.ActionLink("Delete", "Delete", "Order", new { find = Model.OrderId }, 0)
 </li>

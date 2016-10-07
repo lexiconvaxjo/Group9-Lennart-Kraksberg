@@ -26,12 +26,13 @@ namespace Project01.Controllers
         {
             var context = new AppDbContext();
 
-            var Orders = context.Orders.ToList().Select(x => new OrderVM
+            var Orders = context.Orders.ToList().Select(x => new Order
             {
                 OrderId = x.OrderId,
                 OrderDate = x.OrderDate,
                 Total = x.Total,
                 CartId = x.CartId,
+                Email = x.Email,
             }).ToList();
 
             return View(Orders);
@@ -41,12 +42,13 @@ namespace Project01.Controllers
         /// <summary>
         /// Skapa listan, partial
         /// </summary>
-        /// <param name="p">OrderVM</param>
+        /// <param name="p">Order</param>
         /// <returns></returns>
-        public ActionResult RenderOrder(OrderVM p)
+        public ActionResult RenderOrder(Order p)
         {
-            return PartialView("_orderPart", p);
+            return PartialView("_order", p);
         }
+
 
 
 
@@ -60,15 +62,16 @@ namespace Project01.Controllers
         {
             var context = new AppDbContext();
 
-            var Orders = context.Orders.ToList().Select(x => new OrderVM
+            var Orders = context.Orders.ToList().Select(x => new Order
             {
                 OrderId = x.OrderId,
                 OrderDate = x.OrderDate,
                 Total = x.Total,
-                CartId = x.CartId
+                CartId = x.CartId,
+                Email = x.Email,
             }).ToList();
 
-            List<OrderVM> findList = new List<OrderVM>();
+            List<Order> findList = new List<Order>();
             int numSearch = 0;
 
             if (Orders == null)
@@ -97,14 +100,18 @@ namespace Project01.Controllers
         }
 
 
+
+
+
+
         /// <summary>
         /// Add an Order to the database
         /// </summary>
-        /// <param name="model">OrderVM</param>
+        /// <param name="model">Order</param>
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult AddOrder(OrderVM model)
+        public ActionResult AddOrder(Order model)
         {
             if (ModelState.IsValid)
             {
@@ -116,6 +123,7 @@ namespace Project01.Controllers
                 // order.OrderDate = new DateTime(2016, 09, 12);
                 order.OrderDate = DateTime.Now;
                 order.Total = model.Total;
+                order.Email = model.Email;
 
                 context.Orders.Add(order);
                 var affectedRows = context.SaveChanges();
@@ -123,7 +131,9 @@ namespace Project01.Controllers
                 if (affectedRows > 0)
                 {
                     ViewBag.Message = "Order added.";
-                    return RedirectToAction("Index", "Home");
+                    //  return RedirectToAction("Index", "Home");
+                    return RedirectToAction("ListOrders", "Order");
+
                 }
                 else
                 {
@@ -138,30 +148,124 @@ namespace Project01.Controllers
 
 
         /// <summary>
-        /// Delete an order from the database
+        /// Delete an Order detail from the database
         /// </summary>
         /// <param name="find">OrderId</param>
         /// <returns></returns>
         public ActionResult Delete(int find)
         {
             var context = new AppDbContext();
+            var od2 = new Order();
+            int affectedRows = 0;
             var od = context.Orders.FirstOrDefault(x => x.OrderId == find);
 
-            context.Orders.Remove(od);
-            var affectedRows = context.SaveChanges();
+            if (od != null)
+            {
+                od2.OrderId = od.OrderId;
+              //  od2.OrderDate = 
+                od2.Total = 0;
+                od2.Email = "DELETED";
+
+                context.Orders.Remove(od);
+                affectedRows = context.SaveChanges();
+            }
 
             if (affectedRows > 0)
             {
-                ViewBag.Message = "Order " + find + " deleted.";
-                return RedirectToAction("Index", "Home");
+                ViewBag.Message = "Order detail " + find + " deleted.";
+                return PartialView("_order", od2);
+                // return RedirectToAction("Index", "Home");
             }
             else
             {
                 ViewBag.Message = "Something went wrong!";
-                return View();
+                // return View();
+                return PartialView("_order", od2);
             }
 
         }
+
+
+
+
+
+
+
+        /// <summary>
+        /// Edit an Order detail in the database
+        /// </summary>
+        /// <param name="p">Order</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Edit([Bind(Include = "OrderId, OrderDate, Total, Email")]Order p)
+        {
+            var context = new AppDbContext();
+            var od = context.Orders.FirstOrDefault(x => x.OrderId == p.OrderId);
+
+            if (ModelState.IsValid && od != null)
+            {
+                od.OrderDate = p.OrderDate;
+                od.Total = p.Total;
+                od.Email = p.Email;
+                var affectedRows = context.SaveChanges();
+
+                return PartialView("_order", p);
+
+
+            }
+            else
+            {
+                var od2 = new Order();
+                od2.OrderId = p.OrderId;
+                return PartialView("_order", od2);
+            }
+        }
+
+
+
+        /// <summary>
+        /// Edit an Order in the database
+        /// </summary>
+        /// <param name="id">OrderId</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult EditOrder(int id = 0)
+        {
+            var context = new AppDbContext();
+
+            var order  = context.Orders.FirstOrDefault(x => x.OrderId == id);
+
+            if (order == null)
+            {
+                order = new Order();
+                order.OrderId = id;
+                return PartialView("_order", order);
+            }
+            else
+            {
+                return PartialView("_EditOrder", order);
+            }
+        }
+
+
+        /// <summary>
+        /// Cancel the Edit task
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Cancel(int id = 0)
+        {
+            var context = new AppDbContext();
+            var od = context.Orders.FirstOrDefault(x => x.OrderId == id);
+            return PartialView("_order", od);
+        }
+
+
+
+
+
+
 
 
     }

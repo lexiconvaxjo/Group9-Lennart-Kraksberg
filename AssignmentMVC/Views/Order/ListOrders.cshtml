@@ -1,5 +1,5 @@
 ﻿
-@model  List<Project01.VM.OrderVM>
+@model  List<Project01.Models.Order>
 
 <h1>Orders</h1>
 
@@ -17,18 +17,24 @@
     </div>
 }
 
-<div class="container">
+
+<div class="col-xs-2"> Order id </div>
+<div class="col-xs-3"> Order date </div>
+<div class="col-xs-2"> Total </div>
+<div class="col-xs-3"> Email </div>
+<div class="col-xs-1">  </div>
+<div class="col-xs-1">  </div>
+
+<br />
+<hr />
+
+
+<div class="container" id="showPartial">
+
     @foreach (var item in Model)
     {
-        if (item.OrderId != 0)
-        {
-            <ul class="list-group list-inline">
-                @{
-                    Html.RenderAction("RenderOrder", "Order", new { p = item });
-                }
-            </ul>
-                        }
-                    }
+        Html.RenderAction("RenderOrder", "Order", new { p = item });
+    }
 
 </div>
 
@@ -46,6 +52,12 @@
 
             @Html.Label("Order total :")
             @Html.TextBox("Total", null, new { @class = "form-control" })
+
+            @Html.Label("Email :")
+            @Html.TextBox("Email", null, new { @class = "form-control" })
+
+
+
 
         </div>
 

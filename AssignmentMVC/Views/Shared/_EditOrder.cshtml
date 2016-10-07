@@ -1,0 +1,59 @@
+﻿@model Project01.Models.Order 
+
+
+
+<div id="Order-@Model.OrderId">
+    @using (Ajax.BeginForm("Edit", "Order", new { id = Model.OrderId },
+                                                                    new AjaxOptions
+                                                                    {
+                                                                        HttpMethod = "POST",
+                                                                        UpdateTargetId = "Order-" + Model.OrderId,
+                                                                        InsertionMode = InsertionMode.Replace
+                                                                    }))
+    {
+
+
+        <div>
+            @Html.TextBoxFor(x => Model.OrderId, new { @type = "hidden" })
+        </div>
+
+        <div class="col-xs-2">
+            .
+        </div>
+
+        <div class="col-xs-3">
+            @Html.TextBoxFor(m => Model.OrderDate, new { })
+        </div>
+        <div class="col-xs-2">
+            @Html.TextBoxFor(m => Model.Total, new { })
+
+        </div>
+        <div class="col-xs-3">
+            @Html.TextBoxFor(m => Model.Email, new { })
+        </div>
+
+        <div class="col-xs-1">
+            <input type="submit" value="Save" class="btn btn-sm btn-info" />
+        </div>
+    }
+
+    <div class="col-xs-1">
+
+        @using (Ajax.BeginForm("Cancel", "Order", new { id = Model.OrderId },
+                                    new AjaxOptions
+                                    {
+                                        HttpMethod = "POST",
+                                        UpdateTargetId = "Order-" + Model.OrderId,
+                                        InsertionMode = InsertionMode.Replace
+                                    }))
+
+
+        {
+            <input type="submit" value="Cancel" class="btn btn-sm btn-info" />
+        }
+    </div>
+
+
+
+</div>
+

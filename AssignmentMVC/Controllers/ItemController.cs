@@ -140,20 +140,36 @@ namespace Project01.Controllers
         public ActionResult Delete(string find)
         {
             var context = new AppDbContext();
+            int affectedRows = 0;
+            int wItemId = 0;
             var it = context.Items.FirstOrDefault(x => x.Name == find);
 
-            context.Items.Remove(it);
-            var affectedRows = context.SaveChanges();
+            if (it != null)
+            {
+                wItemId = it.ItemId;
+                context.Items.Remove(it);
+                affectedRows = context.SaveChanges();
+            }
 
             if (affectedRows > 0)
             {
                 ViewBag.Message = "Item " + find + " deleted.";
-                return RedirectToAction("Index", "Home");
+                var item = new Item();
+                item.ItemId = wItemId; 
+                item.Name = "Deleted";
+                item.Price = 0;
+                item.Picture = " ";
+                item.Description = " ";
+                item.StockQty = 0;
+                return PartialView("_item", item);
             }
             else
             {
                 ViewBag.Message = "Something went wrong!";
-                return View();
+                var item = new Item();
+                item.ItemId = 0;
+                item.Name = "Deleted";
+                return PartialView("_item", item);
             }
 
         }
@@ -170,7 +186,7 @@ namespace Project01.Controllers
             var context = new AppDbContext();
             var it = context.Items.FirstOrDefault(x => x.ItemId == p.ItemId);
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && it != null)
             {
                 it.Name = p.Name;
                 it.Price = p.Price;
@@ -185,6 +201,9 @@ namespace Project01.Controllers
             }
             else
             {
+                var item = new Item();
+                item.ItemId = 0;
+                item.Name = "Deleted";
                 return PartialView("_item", it);
             }
         }
@@ -201,14 +220,32 @@ namespace Project01.Controllers
             var context = new AppDbContext();
 
             var item = context.Items.FirstOrDefault(x => x.ItemId == id);
-            return PartialView("_EditItem", item);
+            if (item == null)
+            {
+                item = new Item();
+                item.ItemId = id;
+                item.Name = "Deleted";
+                return PartialView("_item", item);
+            }
+            else
+            {
+                return PartialView("_EditItem", item);
+            }
         }
+
+
 
         [HttpPost]
         public ActionResult Cancel(int id = 0)
         {
             var context = new AppDbContext();
             var it = context.Items.FirstOrDefault(x => x.ItemId == id);
+            if(it == null)
+            {
+                var item = new Item();
+                item.ItemId = id;
+                item.Name = "Deleted";
+            }
             return PartialView("_item", it);
         }
 
