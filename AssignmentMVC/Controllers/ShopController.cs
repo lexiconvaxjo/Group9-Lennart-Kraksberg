@@ -450,12 +450,14 @@ namespace Project01.Controllers
 
             decimal orderTotal = 0;
             decimal rowAmount = 0;
+            DateTime wDate;
 
             var context = new AppDbContext();
 
             var order = new Order();
 
             order.OrderDate = DateTime.Now;
+            wDate = order.OrderDate;
             order.Total = 0;
             var cId = Session["SessId"] as string;
             order.CartId = cId;
@@ -464,13 +466,35 @@ namespace Project01.Controllers
             var affectedRows = context.SaveChanges();
 
 
-            // Create OrderDetails
+            // Get order id from Order table
 
-            // get order id from Order table
-            var or = context.Orders.FirstOrDefault(x => x.CartId == cId);
-            var wOrderId = or.OrderId;
+            int wOrderId = 0;
+            var orders = context.Orders.ToList().Select(x => new Order 
+            {
+                CartId = x.CartId,
+                OrderId = x.OrderId,
+            }).ToList();
 
-            if (or != null)
+            foreach (var item in orders)
+            {
+               if(item.CartId == cId && item.OrderId > wOrderId)
+                {
+                        wOrderId = item.OrderId;
+                } 
+            }
+
+
+                // --------------------------------------------------          
+                // Save OrderId
+
+                if (Session["OrderId"] == null)
+                {
+                    Session.Add("OrderId", wOrderId);
+                }
+                // --------------------------------------------------          
+
+
+            if (wOrderId != 0)
             {
                 var carts = context.Carts.ToList().Select(x => new Cart
                 {
@@ -503,7 +527,9 @@ namespace Project01.Controllers
                     }
 
                     // update total amount in Order table
-                    or = context.Orders.FirstOrDefault(x => x.CartId == cId);
+                    //  or = context.Orders.FirstOrDefault(x => x.CartId == cId);
+                      var or = context.Orders.FirstOrDefault(x => x.OrderId == wOrderId);
+
                     if (or != null)
                     {
                         or.Total = orderTotal;
@@ -610,8 +636,11 @@ namespace Project01.Controllers
                 }
 
                 // Get order total
-                var cId = Session["SessId"] as string;
-                var or = context.Orders.FirstOrDefault(x => x.CartId == cId);
+                int wOrderId = (int)Session["OrderId"];
+                // var cId = Session["SessId"] as string;
+                // var or = context.Orders.FirstOrDefault(x => x.CartId == cId);
+                 var or = context.Orders.FirstOrDefault(x => x.OrderId == wOrderId);
+
                 if (or != null)
                 {
                     ViewBag.Total = "Order total: " + or.Total;
@@ -664,6 +693,7 @@ namespace Project01.Controllers
             {
                 Session.Remove("SessId");
                 Session.Remove("Email");
+                Session.Remove("OrderId");
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -687,6 +717,7 @@ namespace Project01.Controllers
 
                 Session.Remove("SessId");
                 Session.Remove("Email");
+                Session.Remove("OrderId");
 
                 return RedirectToAction("Index", "Home");
             }
